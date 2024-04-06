@@ -7,7 +7,7 @@ import api
 class SimCity:
     def __init__(self):
         self.title = "SimCity"
-        self.version = 1.1
+        self.version = 1.2
         self.fenetre = tk.Tk()
         self.taille_fenetre = (api.taille_case+3) * 12
         self.fenetre.maxsize((api.taille_case+3) * 12, (api.taille_case+3) * 12)
