@@ -8,9 +8,9 @@ class SimCity:
         self.version=1.0
         self.taille_carte=10
         self.fenetre = tk.Tk()
-        self.taille_fenetre=33*12 # Hauteur (taille_boutons x nombre_boutons+2)
-        self.fenetre.maxsize(33*12, 33*12)
-        self.fenetre.minsize(33*12, 33*12)
+        self.taille_fenetre=53*12 # Hauteur (taille_boutons x nombre_boutons+2)
+        self.fenetre.maxsize(53*12, 53*12)
+        self.fenetre.minsize(53*12, 53*12)
         self.saison="Printemps"
         self.jour=1
         self.meteo="Ensoleillé"
@@ -34,9 +34,9 @@ class SimCity:
         self.rgb_energie=(255,255,0)
         self.rgb_detruit=(255,0,0)
 
-        api.creer_texte(self.fenetre, 33*1.5, 0, f"Jour: {str(self.jour)}")
-        api.creer_texte(self.fenetre, 33*4, 0, f"Saison: {self.saison}")
-        api.creer_texte(self.fenetre, 33*8, 0, f"Météo: {self.meteo}")
+        api.creer_texte(self.fenetre, 53*1.5, 0, f"Jour: {str(self.jour)}")
+        api.creer_texte(self.fenetre, 53*4, 0, f"Saison: {self.saison}")
+        api.creer_texte(self.fenetre, 53*8, 0, f"Météo: {self.meteo}")
 
         self.fenetre.title(self.title)
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
