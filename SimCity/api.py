@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 NATURE="ressources/map/nature.png"
-RESIDENCE="ressources/map/ville.png"
+RESIDENCE="ressources/map/residence.png"
 EMPLOI="ressources/map/emploie.png"
 ENERGIE="ressources/map/energie.png"
 DETRUIT="ressources/map/detruit.png"
