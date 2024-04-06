@@ -4,12 +4,12 @@ import api
 from Cases import Case
 
 class Case:
-    def __init__(self, vie, voisins1, voisins2, voisins3, type1,coordonnees):
+    def __init__(self, vie, voisins1, voisins2, voisins3, type1, coordonnees):
         self.vie = vie
         self.voisins1 = voisins1
         self.voisins2 = voisins2
         self.voisins3 = voisins3
-        self.type = type1
+        self.typecase = type1
         self.coordonnees = coordonnees
 
 class SimCity:
@@ -30,7 +30,7 @@ class SimCity:
         for x in range(self.taille_carte):
             ligne = []
             for y in range(self.taille_carte):
-                case = Case(100, [], [], [], 0, (x,y))
+                case = Case(100, [], [], [], 1, (x,y))
                 ligne.append(case)
             self.carte.append(ligne)
 
@@ -47,6 +47,8 @@ class SimCity:
         self.fenetre.title(self.title)
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
         self.fenetre.iconbitmap("ressources/fenetre/icone.ico")
+
+        api.creer_boutons(self.fenetre, self.carte, self.taille_case)
 
     def exporter_carte(self, carte):
         """
@@ -102,5 +104,4 @@ class SimCity:
         self.fenetre.mainloop()
 
 sim=SimCity()
-sim.importer_carte("carte.png")
 sim.affichage()
