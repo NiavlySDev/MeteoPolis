@@ -18,9 +18,10 @@ class SimCity:
         self.version = 1.0
         self.taille_carte = 10
         self.fenetre = tk.Tk()
-        self.taille_fenetre = 53 * 12
-        self.fenetre.maxsize(53 * 12, 53 * 12)
-        self.fenetre.minsize(53 * 12, 53 * 12)
+        self.taille_case=50
+        self.taille_fenetre = (self.taille_case+3) * 12
+        self.fenetre.maxsize((self.taille_case+3) * 12, (self.taille_case+3) * 12)
+        self.fenetre.minsize((self.taille_case+3) * 12, (self.taille_case+3) * 12)
         self.saison = "Printemps"
         self.jour = 1
         self.meteo = "Ensoleillé"
@@ -39,9 +40,9 @@ class SimCity:
         self.rgb_energie = (255, 255, 0)
         self.rgb_detruit = (255, 0, 0)
 
-        api.creer_texte(self.fenetre, 53 * 1.5, 0, f"Jour: {str(self.jour)}")
-        api.creer_texte(self.fenetre, 53 * 4, 0, f"Saison: {self.saison}")
-        api.creer_texte(self.fenetre, 53 * 8, 0, f"Météo: {self.meteo}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 4, 0, f"Saison: {self.saison}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 8, 0, f"Météo: {self.meteo}")
 
         self.fenetre.title(self.title)
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
@@ -95,7 +96,7 @@ class SimCity:
                 if pixel == self.rgb_detruit:
                     self.carte[x][y]=5
 
-        api.creer_boutons(self.fenetre, self.carte)
+        api.creer_boutons(self.fenetre, self.carte, self.taille_case)
 
     def affichage(self):
         self.fenetre.mainloop()
