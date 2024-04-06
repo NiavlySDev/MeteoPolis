@@ -19,18 +19,17 @@ def creer_boutons(fenetre, carte, taille_cases):
     for ligne in carte:
         y2=taille_cases+3
         for case in ligne:
-            if case==1:
+            if case.typecase==1:
                 image_originale = Image.open(NATURE)
-            if case==2:
+            if case.typecase==2:
                 image_originale = Image.open(RESIDENCE)
-            if case==3:
+            if case.typecase==3:
                 image_originale = Image.open(EMPLOI)
-            if case==4:
+            if case.typecase==4:
                 image_originale = Image.open(ENERGIE)
-            if case==5:
+            if case.typecase==5:
                 image_originale = Image.open(DETRUIT)
-            image_redimensionnee = image_originale.resize((taille_cases, taille_cases))
-            image_tk = ImageTk.PhotoImage(image_redimensionnee)
+            image_tk = ImageTk.PhotoImage(image_originale)
             bouton=tk.Button(fenetre, image=image_tk,command=clic_sur_bouton)
             bouton.image = image_tk
             bouton.pack()
