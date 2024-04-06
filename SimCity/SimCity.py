@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import api
+from Cases import Case
 
 class SimCity:
     def __init__(self):
@@ -8,6 +9,7 @@ class SimCity:
         self.version=1.0
         self.taille_carte=10
         self.fenetre = tk.Tk()
+        self.taille_case=53
         self.taille_fenetre=53*12 # Hauteur (taille_boutons x nombre_boutons+2)
         self.fenetre.maxsize(53*12, 53*12)
         self.fenetre.minsize(53*12, 53*12)
