@@ -25,12 +25,15 @@ def creer_boutons(fenetre, carte):
                 image_originale = Image.open("ressources/map/detruit.png")
             image_redimensionnee = image_originale.resize((50, 50))
             image_tk = ImageTk.PhotoImage(image_redimensionnee)
-            bouton=tk.Button(fenetre, image=image_tk)
+            bouton=tk.Button(fenetre, image=image_tk,command=clic_sur_bouton)
             bouton.image = image_tk
             bouton.pack()
             bouton.place(x=x2,y=y2)
             y2+=53
         x2+=53
+
+def clic_sur_bouton():
+    oui = 4
 
 def creer_texte(fenetre, x2, y2, texte):
     texte_label = tk.Label(fenetre, text=texte)
