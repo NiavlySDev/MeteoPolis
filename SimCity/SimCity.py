@@ -10,6 +10,7 @@ class SimCity:
         self.fenetre = tk.Tk()
         self.taille_fenetre=33*12 # Hauteur (taille_boutons x nombre_boutons+2)
         self.fenetre.maxsize(33*12, 33*12)
+        self.fenetre.minsize(33*12, 33*12)
         self.saison="Printemps"
         self.jour=1
         self.meteo="Ensoleillé"
