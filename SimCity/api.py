@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 NATURE="ressources/map/nature.png"
-RESIDENCE="ressources/map/ville.png"
+RESIDENCE="ressources/map/residence.png"
 EMPLOI="ressources/map/emploie.png"
 ENERGIE="ressources/map/energie.png"
 DETRUIT="ressources/map/detruit.png"
@@ -31,12 +31,15 @@ def creer_boutons(fenetre, carte, taille_cases):
                 image_originale = Image.open(DETRUIT)
             image_redimensionnee = image_originale.resize((taille_cases, taille_cases))
             image_tk = ImageTk.PhotoImage(image_redimensionnee)
-            bouton=tk.Button(fenetre, image=image_tk)
+            bouton=tk.Button(fenetre, image=image_tk,command=clic_sur_bouton)
             bouton.image = image_tk
             bouton.pack()
             bouton.place(x=x2,y=y2)
             y2+=taille_cases+3
         x2+=taille_cases+3
+
+def clic_sur_bouton():
+    oui = 4
 
 def creer_texte(fenetre, x2, y2, texte):
     texte_label = tk.Label(fenetre, text=texte)

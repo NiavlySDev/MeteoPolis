@@ -3,42 +3,46 @@ from PIL import Image, ImageTk
 import api
 from Cases import Case
 
+class Case:
+    def __init__(self, vie, voisins1, voisins2, voisins3, type1,coordonnees):
+        self.vie = vie
+        self.voisins1 = voisins1
+        self.voisins2 = voisins2
+        self.voisins3 = voisins3
+        self.type = type1
+        self.coordonnees = coordonnees
+
 class SimCity:
     def __init__(self):
-        self.title="SimCity"
-        self.version=1.0
-        self.taille_carte=10
+        self.title = "SimCity"
+        self.version = 1.0
+        self.taille_carte = 10
         self.fenetre = tk.Tk()
         self.taille_case=50
-        self.taille_fenetre=self.taille_case*12 # Hauteur (taille_boutons x nombre_boutons+2)
-        self.fenetre.maxsize((self.taille_case+3)*12, (self.taille_case+3)*12)
-        self.fenetre.minsize((self.taille_case+3)*12, (self.taille_case+3)*12)
-        self.saison="Printemps"
-        self.jour=1
-        self.meteo="Ensoleillé"
+        self.taille_fenetre = (self.taille_case+3) * 12
+        self.fenetre.maxsize((self.taille_case+3) * 12, (self.taille_case+3) * 12)
+        self.fenetre.minsize((self.taille_case+3) * 12, (self.taille_case+3) * 12)
+        self.saison = "Printemps"
+        self.jour = 1
+        self.meteo = "Ensoleillé"
 
-        self.carte=[
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,3,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,4,1,1],
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,2,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,5]
-        ]
+        self.carte = []  # Maintenant une liste d'objets Case
+        for x in range(self.taille_carte):
+            ligne = []
+            for y in range(self.taille_carte):
+                case = Case(100, [], [], [], 0, (x,y))
+                ligne.append(case)
+            self.carte.append(ligne)
 
-        self.rgb_nature=(0,255,0)
-        self.rgb_residence=(0,0,255)
-        self.rgb_emploi=(255,165,0)
-        self.rgb_energie=(255,255,0)
-        self.rgb_detruit=(255,0,0)
+        self.rgb_nature = (0, 255, 0)
+        self.rgb_residence = (0, 0, 255)
+        self.rgb_emploi = (255, 165, 0)
+        self.rgb_energie = (255, 255, 0)
+        self.rgb_detruit = (255, 0, 0)
 
-        api.creer_texte(self.fenetre, (self.taille_case+3)*1.5, 0, f"Jour: {str(self.jour)}")
-        api.creer_texte(self.fenetre, (self.taille_case+3)*4, 0, f"Saison: {self.saison}")
-        api.creer_texte(self.fenetre, (self.taille_case+3)*8, 0, f"Météo: {self.meteo}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 4, 0, f"Saison: {self.saison}")
+        api.creer_texte(self.fenetre, (self.taille_case+3) * 8, 0, f"Météo: {self.meteo}")
 
         self.fenetre.title(self.title)
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
