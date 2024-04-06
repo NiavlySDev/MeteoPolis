@@ -1,4 +1,4 @@
-import tkinter as tk
+import tkinter as tk #import du module de torture
 from PIL import Image, ImageTk
 import api
 
