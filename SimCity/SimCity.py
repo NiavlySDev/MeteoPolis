@@ -26,13 +26,7 @@ class SimCity:
         self.jour = 1
         self.meteo = "Ensoleillé"
 
-        self.carte = []  # Maintenant une liste d'objets Case
-        for x in range(self.taille_carte):
-            ligne = []
-            for y in range(self.taille_carte):
-                case = Case(100, [], [], [], 1, (x,y))
-                ligne.append(case)
-            self.carte.append(ligne)
+        self.carte = []
 
         self.rgb_nature = (0, 255, 0)
         self.rgb_residence = (0, 0, 255)
@@ -65,15 +59,15 @@ class SimCity:
         for ligne in carte:
             y=0
             for case in ligne:
-                if case == 1: # 1 - Vert: Nature
+                if case.typecase == 1: # 1 - Vert: Nature
                     image.putpixel((x, y), (0, 255, 0))
-                if case == 2: # 2 - Bleu: Ville
+                if case.typecase == 2: # 2 - Bleu: Ville
                     image.putpixel((x, y), (0, 0, 255))
-                if case == 3: # 3 - Orange: Emploi
+                if case.typecase == 3: # 3 - Orange: Emploi
                     image.putpixel((x, y), (255, 165, 0))
-                if case == 4: # 4 - Jaune: Energie
+                if case.typecase == 4: # 4 - Jaune: Energie
                     image.putpixel((x, y), (255, 255, 0))
-                if case == 5: # 5 - Rouge: Détruit
+                if case.typecase == 5: # 5 - Rouge: Détruit
                     image.putpixel((x, y), (255, 0, 0))
                 y+=1
             x+=1
@@ -88,20 +82,30 @@ class SimCity:
             for y in range(largeur):
                 pixel = image.getpixel((x, y))
                 if pixel == self.rgb_nature:
-                    self.carte[x][y]=1
+                    self.carte[x][y]=Case(100, [], [], [], 1, (x,y))
                 if pixel == self.rgb_residence:
-                    self.carte[x][y]=2
+                    self.carte[x][y]=Case(100, [], [], [], 2, (x,y))
                 if pixel == self.rgb_emploi:
-                    self.carte[x][y]=3
+                    self.carte[x][y]=Case(100, [], [], [], 3, (x,y))
                 if pixel == self.rgb_energie:
-                    self.carte[x][y]=4
+                    self.carte[x][y]=Case(100, [], [], [], 4, (x,y))
                 if pixel == self.rgb_detruit:
-                    self.carte[x][y]=5
+                    self.carte[x][y]=Case(100, [], [], [], 5, (x,y))
 
+        api.creer_boutons(self.fenetre, self.carte, self.taille_case)
+
+    def creer_carte(self):
+        for x in range(self.taille_carte):
+            ligne = []
+            for y in range(self.taille_carte):
+                case = Case(100, [], [], [], 1, (x,y))
+                ligne.append(case)
+            self.carte.append(ligne)
         api.creer_boutons(self.fenetre, self.carte, self.taille_case)
 
     def affichage(self):
         self.fenetre.mainloop()
 
 sim=SimCity()
+sim.importer_carte("carte.png")
 sim.affichage()
