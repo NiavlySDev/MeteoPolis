@@ -29,7 +29,8 @@ def creer_boutons(fenetre, carte, taille_cases):
                 image_originale = Image.open(ENERGIE)
             if case.typecase==5:
                 image_originale = Image.open(DETRUIT)
-            image_tk = ImageTk.PhotoImage(image_originale)
+            image_redimensionnee = image_originale.resize((50, 50))
+            image_tk = ImageTk.PhotoImage(image_redimensionnee)
             bouton=tk.Button(fenetre, image=image_tk,command=clic_sur_bouton)
             bouton.image = image_tk
             bouton.pack()

@@ -15,7 +15,7 @@ class Case:
 class SimCity:
     def __init__(self):
         self.title = "SimCity"
-        self.version = 1.0
+        self.version = 1.1
         self.taille_carte = 10
         self.fenetre = tk.Tk()
         self.taille_case=50
@@ -38,7 +38,7 @@ class SimCity:
         api.creer_texte(self.fenetre, (self.taille_case+3) * 4, 0, f"Saison: {self.saison}")
         api.creer_texte(self.fenetre, (self.taille_case+3) * 8, 0, f"Météo: {self.meteo}")
 
-        self.fenetre.title(self.title)
+        self.fenetre.title(self.title+" v"+str(self.version))
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
         self.fenetre.iconbitmap("ressources/fenetre/icone.ico")
 
