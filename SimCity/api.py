@@ -8,10 +8,10 @@ def centrer_fenetre(fenetre, largeur, hauteur):
     y = (hauteur_ecran - hauteur) // 2
     fenetre.geometry(f"{largeur}x{hauteur}+{x}+{y}")
 
-def creer_boutons(fenetre, carte):
-    x2=53
+def creer_boutons(fenetre, carte, taille_cases):
+    x2=taille_cases+3
     for ligne in carte:
-        y2=53
+        y2=taille_cases+3
         for case in ligne:
             if case==1:
                 image_originale = Image.open("ressources/map/nature.png")
@@ -23,14 +23,14 @@ def creer_boutons(fenetre, carte):
                 image_originale = Image.open("ressources/map/energie.png")
             if case==5:
                 image_originale = Image.open("ressources/map/detruit.png")
-            image_redimensionnee = image_originale.resize((50, 50))
+            image_redimensionnee = image_originale.resize((taille_cases, taille_cases))
             image_tk = ImageTk.PhotoImage(image_redimensionnee)
             bouton=tk.Button(fenetre, image=image_tk)
             bouton.image = image_tk
             bouton.pack()
             bouton.place(x=x2,y=y2)
-            y2+=53
-        x2+=53
+            y2+=taille_cases+3
+        x2+=taille_cases+3
 
 def creer_texte(fenetre, x2, y2, texte):
     texte_label = tk.Label(fenetre, text=texte)
