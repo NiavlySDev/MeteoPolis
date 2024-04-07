@@ -27,8 +27,6 @@ class Case:
             self.vie = 200
         elif nouvelle_vie < 0:
             self.vie = 0
-            self.magnifique = False
-            self.typecase = "Out"
         else:
             self.vie = nouvelle_vie
 
