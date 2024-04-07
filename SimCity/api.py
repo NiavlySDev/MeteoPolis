@@ -100,15 +100,15 @@ def importer_carte(path):
         for y in range(largeur):
             pixel = image.getpixel((x, y))
             if pixel == rgb_nature:
-                carte[x][y] = Case(100, "Nature")
+                carte[x][y] = Case(50, "Nature")
             elif pixel == rgb_residence:
-                carte[x][y] = Case(100, "Residence")
+                carte[x][y] = Case(50, "Residence")
             elif pixel == rgb_emploi:
-                carte[x][y] = Case(100, "Emploi")
+                carte[x][y] = Case(50, "Emploi")
             elif pixel == rgb_energie:
-                carte[x][y] = Case(100, "Energie")
+                carte[x][y] = Case(50, "Energie")
             elif pixel == rgb_detruit:
-                carte[x][y] = Case(100, "Out")
+                carte[x][y] = Case(50,"Out")
             else:
                 raise ValueError(f"Unknown pixel color at position ({x}, {y})")
     return carte

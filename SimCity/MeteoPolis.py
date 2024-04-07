@@ -24,9 +24,9 @@ class MeteoPolis:
         self.rgb_energie = (255, 255, 0)
         self.rgb_detruit = (255, 0, 0)
 
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"Saison: {self.saison}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"Météo: {self.meteo}")
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"{self.saison}")
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour {str(self.jour)}")
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"{self.meteo}")
 
         self.fenetre.title(self.title+" v"+str(self.version))
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
@@ -38,7 +38,7 @@ class MeteoPolis:
         for i in range(api.taille_carte):
             ligne = []  # Initialisation de la ligne courante
             for j in range(api.taille_carte):
-                case = Case(100, "Nature")  # Création d'une nouvelle case avec vie=100 et typecase="Nature"
+                case = Case()  # Création d'une nouvelle case avec vie=100 et typecase="Nature"
                 ligne.append(case)  # Ajout de la case à la ligne courante
             self.carte.append(ligne)  # Ajout de la ligne à la liste de cartes
         api.creer_boutons(self.fenetre, self.carte, api.taille_case)
