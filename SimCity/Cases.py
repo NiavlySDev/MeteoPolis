@@ -1,3 +1,6 @@
+import random
+liste_types = ["Nature","Residence","Emploi","Energie"]
+
 class Case:
     def __init__(self,vie=50,typecase = "Out"):
         self.vie = vie
@@ -28,8 +31,19 @@ class Case:
     def set_magnifique(self, new_magn=bool):
         self.magnifique = new_magn
 
-    def verif_case(self): #à faire quand on aura de quoi la faire
-        oui = 15
+    def verif_case(self):
+        if self.vie <= 0:
+            self.vie = 0
+            self.typecase = "Out"
+            self.magnifique = False
+        elif self.typecase == "Out" and self.vie == 100:
+            indice_type = random.randint(0,3)
+            self.typecase = liste_types[indice_type]
+        elif self.vie == 100 and self.magnifique == False:
+            self.magnifique == True
+        elif self.magnifique == True and vie < 100:
+            self.magnifique = False
+
 
 
 

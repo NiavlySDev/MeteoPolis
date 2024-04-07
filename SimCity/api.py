@@ -41,7 +41,7 @@ def creer_boutons(fenetre, carte, taille_cases):
                 image_originale = Image.open(EMPLOI)
             elif case.typecase == "Energie":
                 image_originale = Image.open(ENERGIE)
-            elif case.typecase == "Detruit":
+            elif case.typecase == "Out":
                 image_originale = Image.open(DETRUIT)
             else:
                 raise ValueError(f"Unknown case type: {case.typecase}")
@@ -84,7 +84,7 @@ def exporter_carte(self, carte):
                 image.putpixel((x, y), (255, 165, 0))
             if case.typecase == "Energie": # 4 - Jaune: Energie
                 image.putpixel((x, y), (255, 255, 0))
-            if case.typecase == "Detruit": # 5 - Rouge: Détruit
+            if case.typecase == "Out": # 5 - Rouge: Détruit
                 image.putpixel((x, y), (255, 0, 0))
             y+=1
         x+=1
@@ -108,7 +108,7 @@ def importer_carte(path):
             elif pixel == rgb_energie:
                 carte[x][y] = Case(100, "Energie")
             elif pixel == rgb_detruit:
-                carte[x][y] = Case(100, "Detruit")
+                carte[x][y] = Case(100, "Out")
             else:
                 raise ValueError(f"Unknown pixel color at position ({x}, {y})")
     return carte

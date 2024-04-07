@@ -107,7 +107,7 @@ class Modification:
                     image_originale = Image.open(api.EMPLOI)
                 if case.typecase=="Energie":
                     image_originale = Image.open(api.ENERGIE)
-                if case.typecase=="Detruit":
+                if case.typecase=="Out":
                     image_originale = Image.open(api.DETRUIT)
                 image_redimensionnee = image_originale.resize((50, 50))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
