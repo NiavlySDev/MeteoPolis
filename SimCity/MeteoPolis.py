@@ -4,9 +4,9 @@ from Cases import Case
 from Modification import Modification
 import api
 
-class SimCity:
+class MeteoPolis:
     def __init__(self):
-        self.title = "SimCity"
+        self.title = "MeteoPolis"
         self.version = 1.2
         self.fenetre = tk.Tk()
         self.taille_fenetre = (api.taille_case+3) * 12
@@ -34,14 +34,23 @@ class SimCity:
         bouton = tk.Button(self.fenetre, text="Modifier", command=self.modifier)
         bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
 
-    def creer_carte(self):
-        for x in range(api.taille_carte):
-            ligne = []
-            for y in range(api.taille_carte):
-                case = Case(100, [], [], [], 1, (x,y))
-                ligne.append(case)
-            self.carte.append(ligne)
+        self.carte = []  # Initialisation de la liste de cartes
+        for i in range(api.taille_carte):
+            ligne = []  # Initialisation de la ligne courante
+            for j in range(api.taille_carte):
+                case = Case(100, "Nature")  # Création d'une nouvelle case avec vie=100 et typecase="Nature"
+                ligne.append(case)  # Ajout de la case à la ligne courante
+            self.carte.append(ligne)  # Ajout de la ligne à la liste de cartes
         api.creer_boutons(self.fenetre, self.carte, api.taille_case)
+
+    def __str__(self):
+        s = ""
+        for ligne in self.carte:
+            s += "["
+            for case in ligne:
+                s += str(case)  # Utilisation de la méthode __str__ de la classe Case
+            s += "]\n"
+        return s
 
     def modifier(self):
         self.fenetre.destroy()
@@ -52,6 +61,6 @@ class SimCity:
     def affichage(self):
         self.fenetre.mainloop()
 
-sim=SimCity()
+sim=MeteoPolis()
 api.creer_boutons(sim.fenetre, api.importer_carte("carte.png"), api.taille_case)
 sim.affichage()

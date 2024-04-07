@@ -24,32 +24,37 @@ def centrer_fenetre(fenetre, largeur, hauteur):
     y = (hauteur_ecran - hauteur) // 2
     fenetre.geometry(f"{largeur}x{hauteur}+{x}+{y}")
 
+
+#types -> ["Nature","Residence","Emploi","Energie","Detruit"]
+# In api.py
+
 def creer_boutons(fenetre, carte, taille_cases):
-    x2=taille_cases+3
+    x2 = taille_cases + 3
     for ligne in carte:
-        y2=taille_cases+3
+        y2 = taille_cases + 3
         for case in ligne:
-            if case.typecase==1:
+            if case.typecase == "Nature":
                 image_originale = Image.open(NATURE)
-            if case.typecase==2:
+            elif case.typecase == "Residence":
                 image_originale = Image.open(RESIDENCE)
-            if case.typecase==3:
+            elif case.typecase == "Emploi":
                 image_originale = Image.open(EMPLOI)
-            if case.typecase==4:
+            elif case.typecase == "Energie":
                 image_originale = Image.open(ENERGIE)
-            if case.typecase==5:
+            elif case.typecase == "Detruit":
                 image_originale = Image.open(DETRUIT)
+            else:
+                raise ValueError(f"Unknown case type: {case.typecase}")
+
             image_redimensionnee = image_originale.resize((50, 50))
             image_tk = ImageTk.PhotoImage(image_redimensionnee)
-            bouton=tk.Button(fenetre, image=image_tk)
-            bouton.image=image_tk
+            bouton = tk.Button(fenetre, image=image_tk)
+            bouton.image = image_tk
             bouton.pack()
-            bouton.place(x=x2,y=y2)
-            y2+=taille_cases+3
-        x2+=taille_cases+3
+            bouton.place(x=x2, y=y2)
+            y2 += taille_cases + 3
+        x2 += taille_cases + 3
 
-def clic_sur_bouton():
-    oui = 4
 
 def creer_texte(fenetre, x2, y2, texte):
     texte_label = tk.Label(fenetre, text=texte)
@@ -71,37 +76,39 @@ def exporter_carte(self, carte):
     for ligne in carte:
         y=0
         for case in ligne:
-            if case.typecase == 1: # 1 - Vert: Nature
+            if case.typecase == "Nature": # 1 - Vert: Nature
                 image.putpixel((x, y), (0, 255, 0))
-            if case.typecase == 2: # 2 - Bleu: Ville
+            if case.typecase == "Residence": # 2 - Bleu: Ville
                 image.putpixel((x, y), (0, 0, 255))
-            if case.typecase == 3: # 3 - Orange: Emploi
+            if case.typecase == "Emploi": # 3 - Orange: Emploi
                 image.putpixel((x, y), (255, 165, 0))
-            if case.typecase == 4: # 4 - Jaune: Energie
+            if case.typecase == "Energie": # 4 - Jaune: Energie
                 image.putpixel((x, y), (255, 255, 0))
-            if case.typecase == 5: # 5 - Rouge: Détruit
+            if case.typecase == "Detruit": # 5 - Rouge: Détruit
                 image.putpixel((x, y), (255, 0, 0))
             y+=1
         x+=1
 
     image.save("carte.png")
 
+#types -> ["Nature","Residence","Emploi","Energie","Detruit"]
 def importer_carte(path):
     image = Image.open(path)
     hauteur, largeur = image.size
-    carte=[[0 for _ in range(hauteur)] for _ in range(largeur)]
+    carte = [[None for _ in range(hauteur)] for _ in range(largeur)]
     for x in range(hauteur):
         for y in range(largeur):
             pixel = image.getpixel((x, y))
             if pixel == rgb_nature:
-                carte[x][y]=Case(100, [], [], [], 1, x,y)
-            if pixel == rgb_residence:
-                carte[x][y]=Case(100, [], [], [], 2, x,y)
-            if pixel == rgb_emploi:
-                carte[x][y]=Case(100, [], [], [], 3, x,y)
-            if pixel == rgb_energie:
-                carte[x][y]=Case(100, [], [], [], 4, x,y)
-            if pixel == rgb_detruit:
-                carte[x][y]=Case(100, [], [], [], 5, x,y)
-
+                carte[x][y] = Case(100, "Nature")
+            elif pixel == rgb_residence:
+                carte[x][y] = Case(100, "Residence")
+            elif pixel == rgb_emploi:
+                carte[x][y] = Case(100, "Emploi")
+            elif pixel == rgb_energie:
+                carte[x][y] = Case(100, "Energie")
+            elif pixel == rgb_detruit:
+                carte[x][y] = Case(100, "Detruit")
+            else:
+                raise ValueError(f"Unknown pixel color at position ({x}, {y})")
     return carte
