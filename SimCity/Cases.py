@@ -20,7 +20,17 @@ class Case:
         return self.magnifique == True
 
     def modif_vie(self, modificateur):
-        self.vie += modificateur
+        nouvelle_vie = self.vie + modificateur
+        if nouvelle_vie > 100 and self.magnifique == False:
+            self.vie = 100
+        elif nouvelle_vie > 200 and self.magnifique == True:
+            self.vie = 200
+        elif nouvelle_vie < 0:
+            self.vie = 0
+            self.magnifique = False
+            self.typecase = "Out"
+        else:
+            self.vie = nouvelle_vie
 
     def new_type(self, new_type):
         self.typecase = new_type
