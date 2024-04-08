@@ -70,7 +70,7 @@ sim.affichage()
 
 class Meteopolis:
     #selon la doc
-    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5):
+    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
         self.carte = []
         self.jour = 10
         self.saison = ""
@@ -82,7 +82,7 @@ class Meteopolis:
             for j in range(nb_colonnes):
                 self.carte[i].append(Case(50, type))
 
-    def __str__(self):
+    def __str__(self) -> str:
         resultat = ''
         for i in self.carte:
             ligne = ''
@@ -91,51 +91,170 @@ class Meteopolis:
             resultat += ligne + '\n'
         return resultat
 
-    def get_carte(self):
+    def get_carte(self) -> list:
         return self.carte
 
-    def get_jour(self):
+    def get_jour(self) -> int:
         return self.jour
 
-    def get_saison(self):
+    def get_saison(self) -> str:
         return self.saison
 
-    def get_chaos(self):
+    def get_chaos(self) -> int:
         return self.chaos
 
-    def get_temps(self):
+    def get_temps(self) -> str:
         return self.temps
 
-    def get_tempo(self):
+    def get_tempo(self) -> int:
         return self.tempo
 
-    def set_carte(self, carte_demain):
-        ok = 5
+    def set_carte(self, carte_demain) -> None:
+        self.carte = carte_demain
 
-    def set_temps(self, new_temps):
-        ok = 5
+    def set_temps(self, new_temps) -> None:
+        self.temps = new_temps
 
-    def set_saison(self, new_saison = ""):
-        ok = 5
+    def set_saison(self, new_saison = "") -> None:
+        if new_saison != "":
+            self.saison = new_saison
+        elif self.saison == "Automne":
+            self.saison = "Hiver"
+        elif self.saison == "Hiver":
+            self.saison = "Printemps"
+        elif self.saison == "Printemps":
+            self.saison = 'Ete'
+        elif self.saison == "Ete":
+            self.saison = "Automne"
 
-    def incremente_jour(self):
-        ok = 5
+    def incremente_jour(self) -> None:
+        self.jour += 1
 
-    def incremente_chaos(self):
-        ok = 5
+    def incremente_chaos(self) -> None:
+        self.chaos += 1
 
-    def proches_voisins(self, ligne, colonne):
-        ok = 5
+    def proches_voisins(self, ligne, colonne) -> list:
+        liste = []
+        coo = self.get_coo(ligne, colonne, 'Horizontal', 1)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Horizontal', -1)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', 1)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', -1)
+        liste.append(self.carte[coo[0]][coo[1]])
+        return liste
+'''
+Renvoie la liste des 4 cases voisines
+proches (à 1 pas) de la case dont les
+coordonnées sont en argument.'''
 
-    def voisins(self, ligne, colonne):
-        ok = 5
+	def voisins(self, ligne, colonne) -> list:
+		#On ajoute les 4 cases les plus proches
+		proches = self.proches_voisins(ligne, colonne)
+		liste = []
+		for i in proches:
+			liste.append(i)
 
-    def banlieue(self, ligne, colonne):
-        ok = 5
+		#On ajoute les cases accessibles en lignes droites, N, S, E, O
+		coo = self.get_coo(ligne, colonne, 'Horizontal', 2)
+		liste.append(self.carte[coo[0]][coo[1]])
+		coo = self.get_coo(ligne, colonne, 'Horizontal', -2)
+		liste.append(self.carte[coo[0]][coo[1]])
+		coo = self.get_coo(ligne, colonne, 'Vertical', 2)
+		liste.append(self.carte[coo[0]][coo[1]])
+		coo = self.get_coo(ligne, colonne, 'Vertical', -2)
+		liste.append(self.carte[coo[0]][coo[1]])
 
-    def voisinage(self, ligne, colonne):
-        ok = 5
+		#On ajoute les cases accessibles en diagonale, NE, NO, SE, SO
+		coo = self.get_coo(ligne, colonne, 'Vertical', 1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo = self.get_coo(ligne, colonne, 'Vertical', -1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
+		liste.append(self.carte[coo1[0]][coo1[1]])
 
-    def simulation(saison_depart, nom_fichier):
-        ok = 5
+		return liste
 
+'''
+Renvoie la liste des 12 cases voisines (à 2
+pas) de la case dont les coordonnées sont
+en argument.
+'''
+
+	def banlieue(self, ligne, colonne) -> list:
+		#On ajoute les 12 cases les plus proches
+		proches = self.proches_voisins(ligne, colonne)
+		liste = []
+		for i in proches:
+			liste.append(i)
+
+		#On ajoute les cases les plus éloignées
+		coo = self.get_coo(ligne, colonne, 'Vertical', 2)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo = self.get_coo(ligne, colonne, 'Vertical', -2)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+
+		#On ajoute les cases manquantes (en cavalier de jeu d'échec)
+		coo = self.get_coo(ligne, colonne, 'Vertical', 1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo = self.get_coo(ligne, colonne, 'Vertical', -1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo = self.get_coo(ligne, colonne, 'Horizontal', 1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo = self.get_coo(ligne, colonne, 'Horizontal', -1)
+		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
+		liste.append(self.carte[coo1[0]][coo1[1]])
+
+		return liste
+
+
+    def voisinage(self, ligne, colonne) -> list:
+        '''
+        Renvoie la liste des cases voisines de la
+case dont les coordonnées sont en
+argument, en fonction de son type.'''
+
+    def simulation(saison_depart, nom_fichier) -> int:
+        '''
+        Lance la simulation sur 1 an (120 jours).
+Renvoie le score final.'''
+
+    def get_coo(self, ligne, colonne, direction = "", nombre_de_pas = 0) -> list:
+    	if direction == "" or nombre_de_pas == 0:
+    		return [ligne, colonne]
+    	for i in range(nombre_de_pas):
+    		if direction == "Horizontal":
+    			colonne += nombre_de_pas
+    		elif direction == "Vertical":
+    			ligne += nombre_de_pas
+    	if colonne < 0:
+    		colonne = self.nb_colonnes + colonne
+    	elif colonne > self.nb_colonnes:
+    		colonne = colonne - self.nb_colonnes
+    	elif ligne < 0:
+    		ligne = self.nb_lignes + ligne
+    	elif ligne > self.nb_lignes:
+    		ligne = ligne - self.nb_lignes
+        return [ligne, colonne]
