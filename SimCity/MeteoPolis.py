@@ -83,29 +83,31 @@ class Meteopolis:
                 self.carte[i].append(Case(50, type))
 
     def __str__(self):
+        resultat = ''
         for i in self.carte:
-            liste = []
+            ligne = ''
             for j in i:
-                liste.append[j.typecase]
-            print(liste)
+                ligne += j.typecase + ' '
+            resultat += ligne + '\n'
+        return resultat
 
     def get_carte(self):
-        ok = 5
+        return self.carte
 
     def get_jour(self):
-        ok = 5
+        return self.jour
 
     def get_saison(self):
-        ok = 5
+        return self.saison
 
     def get_chaos(self):
-        ok = 5
+        return self.chaos
 
     def get_temps(self):
-        ok = 5
+        return self.temps
 
     def get_tempo(self):
-        ok = 5
+        return self.tempo
 
     def set_carte(self, carte_demain):
         ok = 5
