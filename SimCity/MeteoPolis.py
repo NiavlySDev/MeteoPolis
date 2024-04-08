@@ -77,6 +77,8 @@ class Meteopolis:
         self.chaos = 0
         self.temps = ""
         self.tempo = tempo
+        self.nb_lignes = nb_lignes
+        self.nb_colonnes = nb_colonnes
         for i in range(nb_lignes):
             self.carte.append([])
             for j in range(nb_colonnes):
