@@ -2,7 +2,23 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 from Modification import Modification
+import Graphe
+import time
 import api
+
+import csv
+
+def lecture_fichier(nom_fichier) :
+    with open(nom_fichier, newline= "", encoding= 'utf-8') as f :
+        fichier = csv.reader(f, delimiter = ';')
+        carte = []
+        for ligne in fichier :
+            carte.append(ligne)
+        return carte
+
+def ecriture_fichier(carte, nom_fichier) :
+    with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
+        csv.writer(f, delimiter = ';').writerows(carte)
 
 class MeteoPolis:
     def __init__(self):
@@ -112,22 +128,23 @@ class Meteopolis:
         return self.tempo
 
     def get_coo(self, ligne, colonne, direction = "", nombre_de_pas = 0) -> list:
-    	if direction == "" or nombre_de_pas == 0:
-    		return [ligne, colonne]
-    	for i in range(nombre_de_pas):
-    		if direction == "Horizontal":
-    			colonne += nombre_de_pas
-    		elif direction == "Vertical":
-    			ligne += nombre_de_pas
-    	if colonne < 0:
-    		colonne = self.nb_colonnes + colonne
-    	elif colonne > self.nb_colonnes:
-    		colonne = colonne - self.nb_colonnes
-    	elif ligne < 0:
-    		ligne = self.nb_lignes + ligne
-    	elif ligne > self.nb_lignes:
-    		ligne = ligne - self.nb_lignes
-        return [ligne, colonne]
+        if direction == "" or nombre_de_pas == 0:
+            return [ligne, colonne]
+        for i in range(nombre_de_pas):
+            if direction == "Horizontal":
+                colonne += nombre_de_pas
+            elif direction == "Vertical":
+                ligne += nombre_de_pas
+            if colonne < 0:
+                colonne = self.nb_colonnes + colonne
+            elif colonne > self.nb_colonnes:
+                colonne = colonne - self.nb_colonnes
+            elif ligne < 0:
+                ligne  = self.nb_lignes + ligne
+            elif ligne > self.nb_lignes:
+                ligne = ligne - self.nb_lignes
+            return [ligne, colonne]
+
 
     def set_carte(self, carte_demain) -> None:
         self.carte = carte_demain
@@ -251,12 +268,37 @@ en argument.
 
 
     def voisinage(self, ligne, colonne) -> list:
-        '''
-        Renvoie la liste des cases voisines de la
+'''
+Renvoie la liste des cases voisines de la
 case dont les coordonnées sont en
-argument, en fonction de son type.'''
+argument, en fonction de son type.
+Résidence : Fonctionne avec la banlieue.
+Emploi : Fonctionne avec les voisins proches.
+Nature et Energie : Fonctionnent avec les voisins.
+'''
+        if self.carte[ligne][colonne].typecase == "Residence":
+            return self.banlieue(ligne, colonne)
+        elif self.carte[ligne][colonne].typecase == "Emploi":
+            return self.proches_voisins(ligne, colonne)
+        elif self.carte[ligne][colonne].typecase == "Nature" or self.carte[ligne][colonne].typecase == "Energie":
+            return self.voisins(ligne, colonne)
 
     def simulation(saison_depart, nom_fichier) -> int:
         '''
         Lance la simulation sur 1 an (120 jours).
 Renvoie le score final.'''
+        carte = lecture_fichier(nom_fichier)
+        ville = Meteopolis()
+        for i in range(len(ville.nb_lignes)):
+            for j in range(len(ville.nb_colonnes)):
+                ville.carte[i][j] = Case(50, carte[i][j])
+        ville.set_saison(saison_depart)
+
+        for i in range(4):
+            for j in range(30):
+                #Methode d'affichage
+                ville.incremente_jour()
+                Graphe.ville_de_demain(ville)
+                time.sleep(5)
+            ville.set_saison()
+        return Graphe.calcul_score(ville)
