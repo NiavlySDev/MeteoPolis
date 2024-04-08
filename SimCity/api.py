@@ -2,6 +2,15 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 
+##### Paramètres (Modifiable) #####
+
+taille_case=48
+taille_carte = 10
+
+###################################
+
+##### Paramètres (Non-Modifiable) #####
+
 NATURE="ressources/map/terrain_vague.png"
 RESIDENCE="ressources/map/residence.png"
 EMPLOI="ressources/map/energie.png"
@@ -14,10 +23,10 @@ rgb_emploi = (255, 165, 0)
 rgb_energie = (255, 255, 0)
 rgb_detruit = (255, 0, 0)
 
-taille_case=53
-taille_carte = 10
+######################################
 
 def centrer_fenetre(fenetre, largeur, hauteur):
+    """Permet de centrer la fenêtre au millieu de l'écran"""
     largeur_ecran = fenetre.winfo_screenwidth()
     hauteur_ecran = fenetre.winfo_screenheight()
     x = (largeur_ecran - largeur) // 2
@@ -29,6 +38,7 @@ def centrer_fenetre(fenetre, largeur, hauteur):
 # In api.py
 
 def creer_boutons(fenetre, carte, taille_cases):
+    """Crée tous les boutons des interfaces"""
     x2 = taille_cases + 3
     for ligne in carte:
         y2 = taille_cases + 3
@@ -44,9 +54,9 @@ def creer_boutons(fenetre, carte, taille_cases):
             elif case.typecase == "Out":
                 image_originale = Image.open(DETRUIT)
             else:
-                raise ValueError(f"Unknown case type: {case.typecase}")
+                raise ValueError(f"Type inconnu: {case.typecase}")
 
-            image_redimensionnee = image_originale.resize((50, 50))
+            image_redimensionnee = image_originale.resize((taille_case, taille_case))
             image_tk = ImageTk.PhotoImage(image_redimensionnee)
             bouton = tk.Button(fenetre, image=image_tk)
             bouton.image = image_tk
@@ -56,10 +66,11 @@ def creer_boutons(fenetre, carte, taille_cases):
         x2 += taille_cases + 3
 
 
-def creer_texte(fenetre, x2, y2, texte):
+def creer_texte(fenetre, x2, y2, texte, taille):
+    """Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre)"""
     texte_label = tk.Label(fenetre, text=texte)
     texte_label.place(x=x2, y=y2)
-    texte_label.config(font=("Helvetica", 15))
+    texte_label.config(font=("Helvetica", taille))
 
 def exporter_carte(self, carte):
     """

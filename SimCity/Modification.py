@@ -9,10 +9,10 @@ class Modification:
         self.version = 1.1
         self.taille_carte = 10
         self.fenetre = tk.Tk()
-        self.taille_case=50
+        self.taille_case=api.taille_case
         self.taille_fenetre = (self.taille_case+3) * 12
-        self.fenetre.maxsize((self.taille_case+3) * 12, ((self.taille_case+3) * 12)+100)
-        self.fenetre.minsize((self.taille_case+3) * 12, ((self.taille_case+3) * 12)+100)
+        self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre+100)
+        self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre+100)
 
         self.carte = []
 
