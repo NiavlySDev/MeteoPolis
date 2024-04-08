@@ -111,6 +111,24 @@ class Meteopolis:
     def get_tempo(self) -> int:
         return self.tempo
 
+    def get_coo(self, ligne, colonne, direction = "", nombre_de_pas = 0) -> list:
+    	if direction == "" or nombre_de_pas == 0:
+    		return [ligne, colonne]
+    	for i in range(nombre_de_pas):
+    		if direction == "Horizontal":
+    			colonne += nombre_de_pas
+    		elif direction == "Vertical":
+    			ligne += nombre_de_pas
+    	if colonne < 0:
+    		colonne = self.nb_colonnes + colonne
+    	elif colonne > self.nb_colonnes:
+    		colonne = colonne - self.nb_colonnes
+    	elif ligne < 0:
+    		ligne = self.nb_lignes + ligne
+    	elif ligne > self.nb_lignes:
+    		ligne = ligne - self.nb_lignes
+        return [ligne, colonne]
+
     def set_carte(self, carte_demain) -> None:
         self.carte = carte_demain
 
@@ -242,21 +260,3 @@ argument, en fonction de son type.'''
         '''
         Lance la simulation sur 1 an (120 jours).
 Renvoie le score final.'''
-
-    def get_coo(self, ligne, colonne, direction = "", nombre_de_pas = 0) -> list:
-    	if direction == "" or nombre_de_pas == 0:
-    		return [ligne, colonne]
-    	for i in range(nombre_de_pas):
-    		if direction == "Horizontal":
-    			colonne += nombre_de_pas
-    		elif direction == "Vertical":
-    			ligne += nombre_de_pas
-    	if colonne < 0:
-    		colonne = self.nb_colonnes + colonne
-    	elif colonne > self.nb_colonnes:
-    		colonne = colonne - self.nb_colonnes
-    	elif ligne < 0:
-    		ligne = self.nb_lignes + ligne
-    	elif ligne > self.nb_lignes:
-    		ligne = ligne - self.nb_lignes
-        return [ligne, colonne]
