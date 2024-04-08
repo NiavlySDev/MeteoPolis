@@ -64,3 +64,63 @@ class MeteoPolis:
 sim=MeteoPolis()
 api.creer_boutons(sim.fenetre, api.importer_carte("carte.png"), api.taille_case)
 sim.affichage()
+
+
+
+
+class Meteopolis:
+    #selon la doc
+    def __init__(self, nb_lignes = 10, nb_colonnnes = 10, type = "Nature", tempo = 5):
+        ok = 5
+
+    def __str__(self):
+        ok = 5
+
+    def get_carte(self):
+        ok = 5
+
+    def get_jour(self):
+        ok = 5
+
+    def get_saison(self):
+        ok = 5
+
+    def get_chaos(self):
+        ok = 5
+
+    def get_temps(self):
+        ok = 5
+
+    def get_tempo(self):
+        ok = 5
+
+    def set_carte(self, carte_demain):
+        ok = 5
+
+    def set_temps(self, new_temps):
+        ok = 5
+
+    def set_saison(self, new_saison = ""):
+        ok = 5
+
+    def incremente_jour(self):
+        ok = 5
+
+    def incremente_chaos(self):
+        ok = 5
+
+    def proches_voisins(self, ligne, colonne):
+        ok = 5
+
+    def voisins(self, ligne, colonne):
+        ok = 5
+
+    def banlieue(self, ligne, colonne):
+        ok = 5
+
+    def voisinage(self, ligne, colonne):
+        ok = 5
+
+    def simulation(saison_depart, nom_fichier):
+        ok = 5
+
