@@ -70,11 +70,24 @@ sim.affichage()
 
 class Meteopolis:
     #selon la doc
-    def __init__(self, nb_lignes = 10, nb_colonnnes = 10, type = "Nature", tempo = 5):
-        ok = 5
+    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5):
+        self.carte = []
+        self.jour = 10
+        self.saison = ""
+        self.chaos = 0
+        self.temps = ""
+        self.tempo = tempo
+        for i in range(nb_lignes):
+            self.carte.append([])
+            for j in range(nb_colonnes):
+                self.carte[i].append(Case(50, type))
 
     def __str__(self):
-        ok = 5
+        for i in self.carte:
+            liste = []
+            for j in i:
+                liste.append[j.typecase]
+            print(liste)
 
     def get_carte(self):
         ok = 5
