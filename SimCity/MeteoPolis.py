@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 from Modification import Modification
-import Graphe
+#import Graphe
 import time
 import api
 
@@ -181,101 +181,86 @@ class Meteopolis:
         coo = self.get_coo(ligne, colonne, 'Vertical', -1)
         liste.append(self.carte[coo[0]][coo[1]])
         return liste
-'''
-Renvoie la liste des 4 cases voisines
-proches (à 1 pas) de la case dont les
-coordonnées sont en argument.'''
 
-	def voisins(self, ligne, colonne) -> list:
-		#On ajoute les 4 cases les plus proches
-		proches = self.proches_voisins(ligne, colonne)
-		liste = []
-		for i in proches:
-			liste.append(i)
 
-		#On ajoute les cases accessibles en lignes droites, N, S, E, O
-		coo = self.get_coo(ligne, colonne, 'Horizontal', 2)
-		liste.append(self.carte[coo[0]][coo[1]])
-		coo = self.get_coo(ligne, colonne, 'Horizontal', -2)
-		liste.append(self.carte[coo[0]][coo[1]])
-		coo = self.get_coo(ligne, colonne, 'Vertical', 2)
-		liste.append(self.carte[coo[0]][coo[1]])
-		coo = self.get_coo(ligne, colonne, 'Vertical', -2)
-		liste.append(self.carte[coo[0]][coo[1]])
+    def voisins(self, ligne, colonne) -> list:
+        # On ajoute les 4 cases les plus proches
+        proches = self.proches_voisins(ligne, colonne)
+        liste = []
+        for i in proches:
+            liste.append(i)
 
-		#On ajoute les cases accessibles en diagonale, NE, NO, SE, SO
-		coo = self.get_coo(ligne, colonne, 'Vertical', 1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
+        # On ajoute les cases accessibles en lignes droites, N, S, E, O
+        coo = self.get_coo(ligne, colonne, 'Horizontal', 2)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Horizontal', -2)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', 2)
+        liste.append(self.carte[coo[0]][coo[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', -2)
+        liste.append(self.carte[coo[0]][coo[1]])
+
+        # On ajoute les cases accessibles en diagonale, NE, NO, SE, SO
+        coo = self.get_coo(ligne, colonne, 'Vertical', 1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
         liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo = self.get_coo(ligne, colonne, 'Vertical', -1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
-		liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', -1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 1)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -1)
+        liste.append(self.carte[coo1[0]][coo1[1]])
 
-		return liste
+        return liste
 
-'''
-Renvoie la liste des 12 cases voisines (à 2
-pas) de la case dont les coordonnées sont
-en argument.
-'''
 
-	def banlieue(self, ligne, colonne) -> list:
-		#On ajoute les 12 cases les plus proches
-		proches = self.proches_voisins(ligne, colonne)
-		liste = []
-		for i in proches:
-			liste.append(i)
+    def banlieue(self, ligne, colonne) -> list:
+        # On ajoute les 12 cases les plus proches
+        proches = self.proches_voisins(ligne, colonne)
+        liste = []
+        for i in proches:
+            liste.append(i)
 
-		#On ajoute les cases les plus éloignées
-		coo = self.get_coo(ligne, colonne, 'Vertical', 2)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo = self.get_coo(ligne, colonne, 'Vertical', -2)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
+        # On ajoute les cases les plus éloignées
+        coo = self.get_coo(ligne, colonne, 'Vertical', 2)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', -2)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
 
-		#On ajoute les cases manquantes (en cavalier de jeu d'échec)
-		coo = self.get_coo(ligne, colonne, 'Vertical', 1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo = self.get_coo(ligne, colonne, 'Vertical', -1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo = self.get_coo(ligne, colonne, 'Horizontal', 1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo = self.get_coo(ligne, colonne, 'Horizontal', -1)
-		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
-		coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
-		liste.append(self.carte[coo1[0]][coo1[1]])
+        # On ajoute les cases manquantes (en cavalier de jeu d'échec)
+        coo = self.get_coo(ligne, colonne, 'Vertical', 1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo = self.get_coo(ligne, colonne, 'Vertical', -1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Horizontal', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo = self.get_coo(ligne, colonne, 'Horizontal', 1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo = self.get_coo(ligne, colonne, 'Horizontal', -1)
+        coo1 = self.get_coo(coo[0], coo[1], 'Vertical', 2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
+        coo1 = self.get_coo(coo[0], coo[1], 'Vertical', -2)
+        liste.append(self.carte[coo1[0]][coo1[1]])
 
-		return liste
+        return liste
+
 
 
     def voisinage(self, ligne, colonne) -> list:
-'''
-Renvoie la liste des cases voisines de la
-case dont les coordonnées sont en
-argument, en fonction de son type.
-Résidence : Fonctionne avec la banlieue.
-Emploi : Fonctionne avec les voisins proches.
-Nature et Energie : Fonctionnent avec les voisins.
-'''
         if self.carte[ligne][colonne].typecase == "Residence":
             return self.banlieue(ligne, colonne)
         elif self.carte[ligne][colonne].typecase == "Emploi":
