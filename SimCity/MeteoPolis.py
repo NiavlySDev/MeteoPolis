@@ -269,21 +269,25 @@ class Meteopolis:
             return self.voisins(ligne, colonne)
 
     def simulation(saison_depart, nom_fichier) -> int:
-        '''
-        Lance la simulation sur 1 an (120 jours).
-Renvoie le score final.'''
+        #Je charge la carte depuis le fichier
         carte = lecture_fichier(nom_fichier)
+
+        #Je créé une instance de Meteopolis()
         ville = Meteopolis()
+
+        #Je modifie la carte de l'instance en créant les cases à partir de la carte chargée
         for i in range(len(ville.nb_lignes)):
             for j in range(len(ville.nb_colonnes)):
                 ville.carte[i][j] = Case(50, carte[i][j])
         ville.set_saison(saison_depart)
 
+        #Je passe les 4 saisons
         for i in range(4):
+            #Je passe les 30 jours
             for j in range(30):
-                #Methode d'affichage
+                #Methode d'affichage à implémenter
                 ville.incremente_jour()
-                Graphe.ville_de_demain(ville)
-                time.sleep(5)
-            ville.set_saison()
+                Graphe.ville_de_demain(ville)#Calcul de la ville du lendemain
+                time.sleep(5)#Pause de 5 secondes
+            ville.set_saison()#J'incrémente la saison
         return Graphe.calcul_score(ville)
