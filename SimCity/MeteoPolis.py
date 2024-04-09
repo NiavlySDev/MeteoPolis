@@ -3,8 +3,6 @@ from PIL import Image, ImageTk
 from Cases import Case
 # import Graphe
 
-version = "v0.5.0"
-
 class Meteopolis:
     #selon la doc
     def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
@@ -32,6 +30,7 @@ class Meteopolis:
             resultat += ligne + '\n'
         return resultat
 
+    '''
     def maj(self):
         for widget in self.fenetre.winfo_children():
             widget.destroy()
@@ -46,6 +45,7 @@ class Meteopolis:
 
     def editeur(self) -> None:
         self.editeur.maj()
+    '''
 
     def get_carte(self) -> list:
         return self.carte
@@ -202,36 +202,3 @@ class Meteopolis:
             return self.proches_voisins(ligne, colonne)
         elif self.carte[ligne][colonne].typecase == "Nature" or self.carte[ligne][colonne].typecase == "Energie":
             return self.voisins(ligne, colonne)
-
-    def simulation(saison_depart, nom_fichier = "") -> int:
-        #Je créé une instance de Meteopolis()
-        ville = Meteopolis()
-
-        if nom_fichier != "":
-            #Je charge la carte depuis le fichier
-            carte = api.lecture_fichier(nom_fichier)
-        else:
-            carte=ville.carte
-
-        ville.carte=carte
-
-        ville.maj()
-
-        # ville.set_saison(saison_depart)
-
-        ville.fenetre.mainloop()
-
-        """
-        # Je passe les 4 saisons
-        for i in range(4):
-            #Je passe les 30 jours
-            for j in range(30):
-                # Methode d'affichage à implémenter
-                ville.incremente_jour()
-                Graphe.ville_de_demain(ville) # Calcul de la ville du lendemain
-                time.sleep(ville.tempo) # Pause de tempo secondes
-            ville.set_saison() # J'incrémente la saison
-        return Graphe.calcul_score(ville)
-        """
-
-me = Meteopolis()

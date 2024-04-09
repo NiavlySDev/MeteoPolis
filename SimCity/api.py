@@ -149,6 +149,7 @@ def lecture_fichier(nom_fichier : str) :
             carte.append(ligne2)
         return carte
 
+
 def conversion_ligne(liste):
     liste2=[]
 
@@ -169,7 +170,6 @@ def conversion_ligne(liste):
 def ecriture_fichier(carte : list, nom_fichier : str) :
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
         csv.writer(f, delimiter = ';').writerows(carte)
-
 
 
 class Application:
@@ -373,6 +373,10 @@ class Application:
         texte_label.place(x=x2, y=y2)
         texte_label.config(font=("Helvetica", taille))
 
+    def Simuler(self):
+        for widget in self.application.winfo_children():
+            widget.destroy()
+
     def Simulation(self):
         self.simulation = True
         self.meteopolis.set_saison(self.saison_de_depart)
@@ -393,9 +397,7 @@ class Application:
         self.meteopolis.incremente_jour()
         #Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
 
-        print(self.nb_saison)
-
-        return self.application.after(self.meteopolis.get_tempo() * 100, self.Simuler_une_annee)
+        return self.application.after(self.meteopolis.get_tempo() * 1000, self.Simuler_une_annee)
 
 
 ok = Application('Ete', 'Carte.csv')
