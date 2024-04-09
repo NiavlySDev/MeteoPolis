@@ -2,7 +2,7 @@ import random
 liste_types = ["Nature","Residence","Emploi","Energie"]
 
 class Case:
-    def __init__(self,vie=50,typecase = "Out"):
+    def __init__(self, vie=50, typecase = "Out"):
         self.vie = vie
         self.typecase = typecase
         self.magnifique = False
