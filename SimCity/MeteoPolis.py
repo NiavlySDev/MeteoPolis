@@ -2,103 +2,46 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 from Modification import Modification
-#import Graphe
+# import Graphe
 import time
 import api
-
-import csv
-
-def lecture_fichier(nom_fichier) :
-    with open(nom_fichier, newline= "", encoding= 'utf-8') as f :
-        fichier = csv.reader(f, delimiter = ';')
-        carte = []
-        for ligne in fichier :
-            carte.append(ligne)
-        return carte
-
-def ecriture_fichier(carte, nom_fichier) :
-    with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
-        csv.writer(f, delimiter = ';').writerows(carte)
-
-class MeteoPolis:
-    def __init__(self):
-        self.title = "MeteoPolis"
-        self.version = 1.2
-        self.fenetre = tk.Tk()
-        self.taille_fenetre = (api.taille_case+3) * 12
-        self.fenetre.maxsize((api.taille_case+3) * 12, (api.taille_case+3) * 12)
-        self.fenetre.minsize((api.taille_case+3) * 12, (api.taille_case+3) * 12)
-        self.saison = "Printemps"
-        self.jour = 1
-        self.meteo = "Ensoleillé"
-
-        self.carte = []
-
-        self.rgb_nature = (0, 255, 0)
-        self.rgb_residence = (0, 0, 255)
-        self.rgb_emploi = (255, 165, 0)
-        self.rgb_energie = (255, 255, 0)
-        self.rgb_detruit = (255, 0, 0)
-
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"{self.saison}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour {str(self.jour)}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"{self.meteo}")
-
-        self.fenetre.title(self.title+" v"+str(self.version))
-        api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
-        self.fenetre.iconbitmap("ressources/fenetre/icone.ico")
-        bouton = tk.Button(self.fenetre, text="Modifier", command=self.modifier)
-        bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
-
-        self.carte = []  # Initialisation de la liste de cartes
-        for i in range(api.taille_carte):
-            ligne = []  # Initialisation de la ligne courante
-            for j in range(api.taille_carte):
-                case = Case()  # Création d'une nouvelle case avec vie=100 et typecase="Nature"
-                ligne.append(case)  # Ajout de la case à la ligne courante
-            self.carte.append(ligne)  # Ajout de la ligne à la liste de cartes
-        api.creer_boutons(self.fenetre, self.carte, api.taille_case)
-
-    def __str__(self):
-        s = ""
-        for ligne in self.carte:
-            s += "["
-            for case in ligne:
-                s += str(case)  # Utilisation de la méthode __str__ de la classe Case
-            s += "]\n"
-        return s
-
-    def modifier(self):
-        self.fenetre.destroy()
-        mod=Modification()
-        mod.creer_boutons(mod.fenetre, api.importer_carte("carte.png"), mod.taille_case)
-        mod.affichage()
-
-    def affichage(self):
-        self.fenetre.mainloop()
-
-sim=MeteoPolis()
-api.creer_boutons(sim.fenetre, api.importer_carte("carte.png"), api.taille_case)
-sim.affichage()
-
-
-
 
 class Meteopolis:
     #selon la doc
     def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
         self.carte = []
-        self.jour = 10
+        self.jour = 1
         self.saison = ""
         self.chaos = 0
         self.temps = ""
         self.tempo = tempo
         self.nb_lignes = nb_lignes
         self.nb_colonnes = nb_colonnes
+
         for i in range(nb_lignes):
             self.carte.append([])
             for j in range(nb_colonnes):
                 self.carte[i].append(Case(50, type))
+
+        self.fenetre = tk.Tk()
+        self.taille_fenetre = (api.taille_case+3) * 12
+        self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre)
+        self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre)
+
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"Saison: {self.saison}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"Méteo: {self.temps}", 15)
+
+        self.fenetre.title(api.title+" "+api.version)
+
+        api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
+
+        self.fenetre.iconbitmap(api.LOGO)
+
+        bouton = tk.Button(self.fenetre, text="Modifier", command=self.editeur)
+        bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
+
+        api.creer_boutons(self.fenetre, self.carte, api.taille_case)
 
     def __str__(self) -> str:
         resultat = ''
@@ -108,6 +51,13 @@ class Meteopolis:
                 ligne += j.typecase + ' '
             resultat += ligne + '\n'
         return resultat
+
+    def editeur(self) -> None:
+        api.ecriture_fichier(self.carte, "carte.csv")
+        self.fenetre.destroy()
+        mod=Modification()
+        mod.creer_boutons(mod.fenetre, self.carte, mod.taille_case)
+        mod.affichage()
 
     def get_carte(self) -> list:
         return self.carte
@@ -214,7 +164,6 @@ class Meteopolis:
 
         return liste
 
-
     def banlieue(self, ligne, colonne) -> list:
         # On ajoute les 12 cases les plus proches
         proches = self.proches_voisins(ligne, colonne)
@@ -258,8 +207,6 @@ class Meteopolis:
 
         return liste
 
-
-
     def voisinage(self, ligne, colonne) -> list:
         if self.carte[ligne][colonne].typecase == "Residence":
             return self.banlieue(ligne, colonne)
@@ -268,22 +215,35 @@ class Meteopolis:
         elif self.carte[ligne][colonne].typecase == "Nature" or self.carte[ligne][colonne].typecase == "Energie":
             return self.voisins(ligne, colonne)
 
-    def simulation(saison_depart, nom_fichier) -> int:
-        '''
-        Lance la simulation sur 1 an (120 jours).
-Renvoie le score final.'''
-        carte = lecture_fichier(nom_fichier)
+    def simulation(saison_depart, nom_fichier = "") -> int:
+        #Je créé une instance de Meteopolis()
         ville = Meteopolis()
-        for i in range(len(ville.nb_lignes)):
-            for j in range(len(ville.nb_colonnes)):
-                ville.carte[i][j] = Case(50, carte[i][j])
-        ville.set_saison(saison_depart)
 
+        if nom_fichier != "":
+            #Je charge la carte depuis le fichier
+            carte = api.lecture_fichier(nom_fichier)
+        else:
+            carte=ville.carte
+
+        #Je modifie la carte de l'instance en créant les cases à partir de la carte chargée
+        for i in range(ville.nb_lignes):
+            for j in range(ville.nb_colonnes):
+                ville.carte[i][j] = carte[i][j]
+
+        # ville.set_saison(saison_depart)
+
+        ville.fenetre.mainloop()
+
+        """
+        # Je passe les 4 saisons
         for i in range(4):
+            #Je passe les 30 jours
             for j in range(30):
-                #Methode d'affichage
+                # Methode d'affichage à implémenter
                 ville.incremente_jour()
-                Graphe.ville_de_demain(ville)
-                time.sleep(5)
-            ville.set_saison()
+                Graphe.ville_de_demain(ville) # Calcul de la ville du lendemain
+                time.sleep(ville.tempo) # Pause de tempo secondes
+            ville.set_saison() # J'incrémente la saison
         return Graphe.calcul_score(ville)
+        """
+Meteopolis.simulation("Ete")
