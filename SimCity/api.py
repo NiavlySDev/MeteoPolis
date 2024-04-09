@@ -2,6 +2,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 
+import csv
+
 ##### Paramètres (Modifiable) #####
 
 taille_case=48
@@ -11,17 +13,21 @@ taille_carte = 10
 
 ##### Paramètres (Non-Modifiable) #####
 
-NATURE="ressources/map/terrain_vague.png"
-RESIDENCE="ressources/map/residence.png"
-EMPLOI="ressources/map/energie.png"
-ENERGIE="ressources/map/emploie.png"
-DETRUIT="ressources/map/detruit.png"
+NATURE = "ressources/map/nature.png"
+RESIDENCE = "ressources/map/residence.png"
+EMPLOI = "ressources/map/energie.png"
+ENERGIE = "ressources/map/emploie.png"
+DETRUIT = "ressources/map/terrain_vague.png"
+LOGO = "ressources/fenetre/icone.ico"
 
 rgb_nature = (0, 255, 0)
 rgb_residence = (0, 0, 255)
 rgb_emploi = (255, 165, 0)
 rgb_energie = (255, 255, 0)
 rgb_detruit = (255, 0, 0)
+
+title="MeteoPolis"
+version = "v0.4.9"
 
 ######################################
 
@@ -123,3 +129,15 @@ def importer_carte(path):
             else:
                 raise ValueError(f"Unknown pixel color at position ({x}, {y})")
     return carte
+
+def lecture_fichier(nom_fichier : str) :
+    with open(nom_fichier, newline= "", encoding= 'utf-8') as f :
+        fichier = csv.reader(f, delimiter = ';')
+        carte = []
+        for ligne in fichier :
+            carte.append(ligne)
+        return carte
+
+def ecriture_fichier(carte : list, nom_fichier : str) :
+    with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
+        csv.writer(f, delimiter = ';').writerows(carte)

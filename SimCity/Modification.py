@@ -5,8 +5,6 @@ from Cases import Case
 
 class Modification:
     def __init__(self):
-        self.title = "SimCity [Modification]"
-        self.version = 1.1
         self.taille_carte = 10
         self.fenetre = tk.Tk()
         self.taille_case=api.taille_case
@@ -14,17 +12,18 @@ class Modification:
         self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre+100)
         self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre+100)
 
-        self.carte = []
+        self.carte = api.lecture_fichier("carte.csv")
 
-        self.fenetre.title(self.title+" v"+str(self.version))
+        self.fenetre.title(api.title+" [Edition] "+api.version)
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
         self.fenetre.iconbitmap("ressources/fenetre/icone.ico")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 3.7, 5, f"Modification de la Carte")
-        api.creer_texte(self.fenetre, (api.taille_case+3)*1.8, ((api.taille_case+3)*10)+25, f'Pour appliquer les changements, cliquez:')
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 3.7, 5, f"Modification de la Carte", 15)
+        api.creer_texte(self.fenetre, 125, (((api.taille_case+3)*12)+12), f'Pour appliquer les changements, cliquez:', 15)
         modif = tk.Button(self.fenetre, text="Fermer", command=self.sauvegarder)
-        modif.place(x=((api.taille_case+3)*8)+17, y=((api.taille_case+3)*10)+28)
+        modif.place(x=275, y=((api.taille_case+3)*13))
 
         self.coschangees=[]
+
 
     def sauvegarder(self):
         image = Image.open("carte.png")
@@ -73,9 +72,9 @@ class Modification:
         image_tk = ImageTk.PhotoImage(image_redimensionnee)
 
         if image==api.NATURE:
-            self.coschangees[len(self.coschangees)-1]["type"]=(0,255,0)
+            self.coschangees[len(self.coschangees)-1]["type"]="Nature"
         if image==api.EMPLOI:
-            self.coschangees[len(self.coschangees)-1]["type"]=(255, 165, 0)
+            self.coschangees[len(self.coschangees)-1]["type"]="Emploi"
         if image==api.RESIDENCE:
             self.coschangees[len(self.coschangees)-1]["type"]=(0,0,255)
         if image==api.ENERGIE:
@@ -93,7 +92,7 @@ class Modification:
         self.supprimer_bouton(int((api.taille_case+3)*6.3),((api.taille_case+3)*11))
         self.supprimer_bouton(int((api.taille_case+3)*7.3),((api.taille_case+3)*11))
 
-    #types -> ["Nature","Residence","Emploi","Energie","Detruit"]
+    # types -> ["Nature","Residence","Emploi","Energie","Detruit"]
     def creer_boutons(self, fenetre, carte, taille_cases):
         x2=taille_cases+3
         for ligne in carte:
@@ -109,7 +108,7 @@ class Modification:
                     image_originale = Image.open(api.ENERGIE)
                 if case.typecase=="Out":
                     image_originale = Image.open(api.DETRUIT)
-                image_redimensionnee = image_originale.resize((50, 50))
+                image_redimensionnee = image_originale.resize((api.taille_case, api.taille_case))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
                 bouton=tk.Button(fenetre, image=image_tk)
                 bouton.bind("<Button-1>", lambda event, b=bouton: self.modif(event, b))
