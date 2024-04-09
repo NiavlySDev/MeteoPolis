@@ -26,8 +26,8 @@ class MeteoPolis:
         self.version = 1.2
         self.fenetre = tk.Tk()
         self.taille_fenetre = (api.taille_case+3) * 12
-        self.fenetre.maxsize((api.taille_case+3) * 12, (api.taille_case+3) * 12)
-        self.fenetre.minsize((api.taille_case+3) * 12, (api.taille_case+3) * 12)
+        self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre)
+        self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre)
         self.saison = "Printemps"
         self.jour = 1
         self.meteo = "Ensoleillé"
@@ -40,9 +40,9 @@ class MeteoPolis:
         self.rgb_energie = (255, 255, 0)
         self.rgb_detruit = (255, 0, 0)
 
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"{self.saison}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour {str(self.jour)}")
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"{self.meteo}")
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"{self.saison}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour {str(self.jour)}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"{self.meteo}", 15)
 
         self.fenetre.title(self.title+" v"+str(self.version))
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
