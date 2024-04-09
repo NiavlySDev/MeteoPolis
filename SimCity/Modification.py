@@ -4,29 +4,33 @@ import api
 from Cases import Case
 
 class Modification:
-    def __init__(self, meteopolis):
-        self.meteopolis=meteopolis
-        self.carte = meteopolis.carte
+    def __init__(self):
+        self.taille_carte = 10
+        self.fenetre = tk.Tk()
+        self.taille_case=api.taille_case
+        self.taille_fenetre = (self.taille_case+3) * 12
+        self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre+100)
+        self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre+100)
 
-        self.meteopolis.fenetre.title(api.title+" [Edition] "+api.version)
+        self.carte = api.lecture_fichier("carte.csv")
 
-        self.coschangees=[]
-
-    def maj(self):
-        for widget in self.meteopolis.fenetre.winfo_children():
-            widget.destroy()
+        self.fenetre.title(api.title+" [Edition] "+api.version)
+        api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
+        self.fenetre.iconbitmap("ressources/fenetre/icone.ico")
         api.creer_texte(self.fenetre, (api.taille_case+3) * 3.7, 5, f"Modification de la Carte", 15)
         api.creer_texte(self.fenetre, 125, (((api.taille_case+3)*12)+12), f'Pour appliquer les changements, cliquez:', 15)
         modif = tk.Button(self.fenetre, text="Fermer", command=self.sauvegarder)
         modif.place(x=275, y=((api.taille_case+3)*13))
-        api.creer_boutons(self.fenetre, self.meteopolis.carte, api.taille_case)
+
+        self.coschangees=[]
+
 
     def sauvegarder(self):
+        image = Image.open("carte.png")
         for change in self.coschangees:
-            self.meteopolis.carte[change["cos"][0]][change["cos"][1]]=Case(50,change["type"])
-        for widget in self.fenetre.winfo_children():
-            widget.destroy()
-        self.meteopolis.maj()
+            image.putpixel(change["cos"], change["type"])
+        image.save("carte.png")
+        self.fenetre.destroy()
 
     def affichage(self):
         self.fenetre.mainloop()
@@ -72,11 +76,11 @@ class Modification:
         if image==api.EMPLOI:
             self.coschangees[len(self.coschangees)-1]["type"]="Emploi"
         if image==api.RESIDENCE:
-            self.coschangees[len(self.coschangees)-1]["type"]="Residence"
+            self.coschangees[len(self.coschangees)-1]["type"]=(0,0,255)
         if image==api.ENERGIE:
-            self.coschangees[len(self.coschangees)-1]["type"]="Energie"
+            self.coschangees[len(self.coschangees)-1]["type"]=(255,255,0)
         if image==api.DETRUIT:
-            self.coschangees[len(self.coschangees)-1]["type"]="Out"
+            self.coschangees[len(self.coschangees)-1]["type"]=(255,0,0)
 
         modif = tk.Button(self.fenetre, image=image_tk)
         modif.image=image_tk
