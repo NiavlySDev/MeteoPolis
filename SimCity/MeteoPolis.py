@@ -202,3 +202,6 @@ class Meteopolis:
             return self.proches_voisins(ligne, colonne)
         elif self.carte[ligne][colonne].typecase == "Nature" or self.carte[ligne][colonne].typecase == "Energie":
             return self.voisins(ligne, colonne)
+
+    def simulation(self, application, nom_fichier = ''):
+        application.Simulation()

@@ -250,8 +250,10 @@ class Application:
             widget.destroy()
 
         if not self.simulation:
-            lancer = tk.Button(self.application, text='LANCER LA SIMULATION', command = lambda: self.Simulation())
+            lancer = tk.Button(self.application, text='LANCER LA SIMULATION', command = lambda: self.meteopolis.simulation(self))
             lancer.pack(side='top')
+            self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
+            self.application.minsize(self.taille_fenetre, self.taille_fenetre)
         else:
             self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
             self.creer_texte(self.application, (self.taille_cases+3) * 1.5, 0, f"Jour: {str(self.meteopolis.jour)}", 15)
@@ -288,8 +290,12 @@ class Application:
             modif.pack(side='bottom')
 
     def Affichage_modifications(self):
+        self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
+        self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
         for widget in self.application.winfo_children():
             widget.destroy()
+
+        self.creer_texte(self.application, (self.taille_cases+3) * 3.25, 0, 'MODIFICATION DE LA CARTE', 15)
 
         x2 = self.taille_cases + 3
         for i, ligne in enumerate(self.meteopolis.carte):
