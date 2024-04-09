@@ -15,8 +15,8 @@ taille_carte = 10
 
 NATURE = "ressources/map/nature.png"
 RESIDENCE = "ressources/map/residence.png"
-EMPLOI = "ressources/map/energie.png"
-ENERGIE = "ressources/map/emploie.png"
+ENERGIE = "ressources/map/energie.png"
+EMPLOI = "ressources/map/emploie.png"
 DETRUIT = "ressources/map/terrain_vague.png"
 LOGO = "ressources/fenetre/icone.ico"
 
@@ -27,7 +27,7 @@ rgb_energie = (255, 255, 0)
 rgb_detruit = (255, 0, 0)
 
 title="MeteoPolis"
-version = "v0.4.9"
+version = "v0.5.0"
 
 ######################################
 
@@ -135,8 +135,30 @@ def lecture_fichier(nom_fichier : str) :
         fichier = csv.reader(f, delimiter = ';')
         carte = []
         for ligne in fichier :
-            carte.append(ligne)
+            ligne=conversion_ligne(ligne)
+            ligne2=[]
+            for item in ligne:
+                item=Case(item[0], item[1])
+                ligne2.append(item)
+            carte.append(ligne2)
         return carte
+
+def conversion_ligne(liste):
+    liste2=[]
+
+    for case in liste:
+        temp,tempnb="",""
+        for lettre in case:
+            if lettre in "1234567890":
+                tempnb+=lettre
+            if lettre in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                temp+=lettre
+            if lettre == ")":
+                liste2.append((int(tempnb),temp))
+                tempnb=""
+                temp=""
+    return liste2
+
 
 def ecriture_fichier(carte : list, nom_fichier : str) :
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
