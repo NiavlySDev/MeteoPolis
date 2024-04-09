@@ -1,10 +1,9 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
-from Modification import Modification
 # import Graphe
-import time
-import api
+
+version = "v0.5.0"
 
 class Meteopolis:
     #selon la doc
@@ -17,26 +16,12 @@ class Meteopolis:
         self.tempo = tempo
         self.nb_lignes = nb_lignes
         self.nb_colonnes = nb_colonnes
+        self.carte = []
 
         for i in range(nb_lignes):
             self.carte.append([])
             for j in range(nb_colonnes):
                 self.carte[i].append(Case(50, type))
-
-        self.fenetre = tk.Tk()
-        self.taille_fenetre = (api.taille_case+3) * 12
-        self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre)
-        self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre)
-
-        self.fenetre.title(api.title+" "+api.version)
-
-        api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
-
-        self.fenetre.iconbitmap(api.LOGO)
-
-        self.maj()
-
-        self.editeur=Modification(self)
 
     def __str__(self) -> str:
         resultat = ''
@@ -249,4 +234,4 @@ class Meteopolis:
         return Graphe.calcul_score(ville)
         """
 
-Meteopolis.simulation("Ete", "carte.csv")
+me = Meteopolis()
