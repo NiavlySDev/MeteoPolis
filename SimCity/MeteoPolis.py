@@ -28,20 +28,15 @@ class Meteopolis:
         self.fenetre.maxsize(self.taille_fenetre, self.taille_fenetre)
         self.fenetre.minsize(self.taille_fenetre, self.taille_fenetre)
 
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"Saison: {self.saison}", 15)
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}", 15)
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"Méteo: {self.temps}", 15)
-
         self.fenetre.title(api.title+" "+api.version)
 
         api.centrer_fenetre(self.fenetre, self.taille_fenetre, self.taille_fenetre)
 
         self.fenetre.iconbitmap(api.LOGO)
 
-        bouton = tk.Button(self.fenetre, text="Modifier", command=self.editeur)
-        bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
+        self.maj()
 
-        api.creer_boutons(self.fenetre, self.carte, api.taille_case)
+        self.editeur=Modification(self)
 
     def __str__(self) -> str:
         resultat = ''
@@ -52,12 +47,20 @@ class Meteopolis:
             resultat += ligne + '\n'
         return resultat
 
+    def maj(self):
+        for widget in self.fenetre.winfo_children():
+            widget.destroy()
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"Saison: {self.saison}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}", 15)
+        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"Méteo: {self.temps}", 15)
+
+        bouton = tk.Button(self.fenetre, text="Modifier", command=self.editeur)
+        bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
+
+        api.creer_boutons(self.fenetre, self.carte, api.taille_case)
+
     def editeur(self) -> None:
-        api.ecriture_fichier(self.carte, "carte.csv")
-        self.fenetre.destroy()
-        mod=Modification()
-        mod.creer_boutons(mod.fenetre, self.carte, mod.taille_case)
-        mod.affichage()
+        self.editeur.maj()
 
     def get_carte(self) -> list:
         return self.carte
@@ -225,10 +228,9 @@ class Meteopolis:
         else:
             carte=ville.carte
 
-        #Je modifie la carte de l'instance en créant les cases à partir de la carte chargée
-        for i in range(ville.nb_lignes):
-            for j in range(ville.nb_colonnes):
-                ville.carte[i][j] = carte[i][j]
+        ville.carte=carte
+
+        ville.maj()
 
         # ville.set_saison(saison_depart)
 
@@ -246,4 +248,5 @@ class Meteopolis:
             ville.set_saison() # J'incrémente la saison
         return Graphe.calcul_score(ville)
         """
-Meteopolis.simulation("Ete")
+
+Meteopolis.simulation("Ete", "carte.csv")
