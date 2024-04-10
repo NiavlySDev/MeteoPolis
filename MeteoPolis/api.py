@@ -141,15 +141,15 @@ class Application:
         self.application.mainloop()
 
 
-    def centrer_fenetre(self):
-        """Permet de centrer la fenêtre au millieu de l'écran"""
+    def centrer_fenetre(self) -> None:
+        """Permet de centrer la fenêtre au milieu de l'écran"""
         largeur_ecran = self.application.winfo_screenwidth()
         hauteur_ecran = self.application.winfo_screenheight()
         x = (largeur_ecran - self.taille_fenetre) // 2
         y = (hauteur_ecran - self.taille_fenetre) // 2
         self.application.geometry(f"{self.taille_fenetre}x{self.taille_fenetre}+{x}+{y}")
 
-    def Affichage(self):
+    def Affichage(self) -> None:
         """Affichage de la fenêtre normale"""
         for widget in self.application.winfo_children():
             widget.destroy()
@@ -196,7 +196,7 @@ class Application:
             modif = tk.Button(self.application, text='MODIFIER LA CARTE', command = lambda: self.Affichage_modifications())
             modif.pack(side='bottom')
 
-    def Affichage_modifications(self):
+    def Affichage_modifications(self) -> None:
         """Affichage de la page après modifications"""
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
@@ -264,7 +264,7 @@ class Application:
         self.Actions.pack(side='bottom')
 
 
-    def changer_nature_case(self, coo):
+    def changer_nature_case(self, coo : tuple) -> None:
         """Changer le type d'une case"""
         self.type = self.var.get()
         if self.type == 1:
@@ -277,19 +277,19 @@ class Application:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Energie')
         self.Affichage_modifications()
 
-    def save(self):
+    def save(self) -> None:
         """Sauvegarde de la carte"""
         self.nom_fichier = self.Nom_De_Carte.get()
         ecriture_fichier(self.meteopolis.carte, self.nom_fichier + '.csv')
 
 
-    def creer_texte(self, fenetre, x2, y2, texte, taille):
+    def creer_texte(self, fenetre, x2 : int, y2 : int, texte : str, taille : int) -> None:
         """Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre)"""
         texte_label = tk.Label(fenetre, text=texte)
         texte_label.place(x=x2, y=y2)
         texte_label.config(font=("Helvetica", taille))
 
-    def Simuler(self):
+    def reset_affichage(self) -> None:
         """Supprime tous les boutons d'une page"""
         for widget in self.application.winfo_children():
             widget.destroy()
