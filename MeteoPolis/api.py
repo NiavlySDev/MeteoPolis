@@ -8,7 +8,6 @@ import MeteoPolis
 ##### Paramètres (Modifiable) #####
 
 taille_case=48
-taille_carte = 10
 
 ###################################
 
