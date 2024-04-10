@@ -15,7 +15,8 @@ def parametre_modifiable() -> int:
 ##### Paramètres (Non-Modifiable) #####
 
 def parametres_immuables():
-    return {'NATURE' : "ressources/map/nature.png",
+    return {
+    'NATURE' : "ressources/map/nature.png",
     'RESIDENCE' : "ressources/map/residence.png",
     'ENERGIE' : "ressources/map/energie.png",
     'EMPLOI' : "ressources/map/emploi.png",
@@ -29,7 +30,7 @@ def parametres_immuables():
     'rgb_detruit' : (255, 0, 0),
 
     'title' : "MeteoPolis",
-    'version' : "v0.6.0"}
+    'version' : "v0.6.3"}
 
 ######################################
 
