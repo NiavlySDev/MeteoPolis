@@ -2,7 +2,6 @@ import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
 
-import time
 import csv
 import MeteoPolis
 
