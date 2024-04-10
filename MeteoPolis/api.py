@@ -7,7 +7,8 @@ import MeteoPolis
 
 ##### Paramètres (Modifiable) #####
 
-taille_case=48
+def parametre_modifiable() -> int:
+    return 48
 
 ###################################
 
@@ -94,7 +95,7 @@ class Application:
 
         # ville.set_saison(saison_depart)
 
-        self.taille_cases = 48
+        self.taille_cases = parametre_modifiable()
         taille_carte = self.meteopolis.nb_lignes
         self.saison_de_depart = saison_de_depart
         self.nom_fichier = nom_fichier
@@ -118,7 +119,7 @@ class Application:
                 else:
                     raise ValueError(f"Type inconnu: {case.typecase}")
 
-                image_redimensionnee = image_originale.resize((taille_case, taille_case))
+                image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
                 bouton = tk.Button(self.application, image=image_tk)
                 bouton.image = image_tk
@@ -127,7 +128,7 @@ class Application:
                 y2 += self.taille_cases + 3
             x2 += self.taille_cases + 3
 
-        self.taille_fenetre = (taille_case+3) * 12
+        self.taille_fenetre = (self.taille_cases+3) * 12
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre)
         self.application.title("MeteoPolis"+" " + self.parametres['version'])
@@ -181,7 +182,7 @@ class Application:
                 else:
                     raise ValueError(f"Type inconnu: {case.typecase}")
 
-                image_redimensionnee = image_originale.resize((taille_case, taille_case))
+                image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
                 bouton = tk.Button(self.application, image=image_tk)
                 bouton.image = image_tk
