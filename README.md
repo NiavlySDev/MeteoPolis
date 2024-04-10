@@ -8,8 +8,8 @@
 Signé 📑, les **Maîtres Batisseurs**
 
 # Autres 👍:
-- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/Projet3/archive/refs/tags/0.1.0.zip)
-- **Changements ➡**: [Voir](https://github.com/NiavlySDev/Projet3/releases/tag/0.1.0)
+- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/Projet3/releases/download/0.5.5/MeteoPolis-0.5.5.zip)
+- **Changements ➡**: [Voir](https://github.com/NiavlySDev/Projet3/releases/download/0.5.5/MeteoPolis-0.5.5)
 
 # Captures 📸:
 ## ✨ Interface Principale ✨
