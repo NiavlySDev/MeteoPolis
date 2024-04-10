@@ -18,8 +18,8 @@ def parametres_immuables():
     return {'NATURE' : "ressources/map/nature.png",
     'RESIDENCE' : "ressources/map/residence.png",
     'ENERGIE' : "ressources/map/energie.png",
-    'EMPLOI' : "ressources/map/emploie.png",
-    'DETRUIT' : "ressources/map/terrain_vague.png",
+    'EMPLOI' : "ressources/map/emploi.png",
+    'DETRUIT' : "ressources/map/detruit.png",
     'LOGO' : "ressources/fenetre/icone.ico",
 
     'rgb_nature' : (0, 255, 0),
