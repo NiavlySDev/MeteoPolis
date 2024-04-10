@@ -30,113 +30,15 @@ def parametres_immuables():
     'rgb_detruit' : (255, 0, 0),
 
     'title' : "MeteoPolis",
-    'version' : "v0.5.0"}
+    'version' : "v0.5.4"}
 
 ######################################
 
 
-'''
-def centrer_fenetre(fenetre, largeur, hauteur):
-    """Permet de centrer la fenêtre au millieu de l'écran"""
-    largeur_ecran = fenetre.winfo_screenwidth()
-    hauteur_ecran = fenetre.winfo_screenheight()
-    x = (largeur_ecran - largeur) // 2
-    y = (hauteur_ecran - hauteur) // 2
-    fenetre.geometry(f"{largeur}x{hauteur}+{x}+{y}")
-
-
-#types -> ["Nature","Residence","Emploi","Energie","Detruit"]
-# In api.py
-
-def creer_boutons(fenetre, carte, taille_cases):
-    """Crée tous les boutons des interfaces"""
-    x2 = taille_cases + 3
-    for ligne in carte:
-        y2 = taille_cases + 3
-        for case in ligne:
-            if case.typecase == "Nature":
-                image_originale = Image.open(NATURE)
-            elif case.typecase == "Residence":
-                image_originale = Image.open(RESIDENCE)
-            elif case.typecase == "Emploi":
-                image_originale = Image.open(EMPLOI)
-            elif case.typecase == "Energie":
-                image_originale = Image.open(ENERGIE)
-            elif case.typecase == "Out":
-                image_originale = Image.open(DETRUIT)
-            else:
-                raise ValueError(f"Type inconnu: {case.typecase}")
-
-            image_redimensionnee = image_originale.resize((taille_case, taille_case))
-            image_tk = ImageTk.PhotoImage(image_redimensionnee)
-            bouton = tk.Button(fenetre, image=image_tk)
-            bouton.image = image_tk
-            bouton.pack()
-            bouton.place(x=x2, y=y2)
-            y2 += taille_cases + 3
-        x2 += taille_cases + 3
-
-
-def creer_texte(fenetre, x2, y2, texte, taille):
-    """Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre)"""
-    texte_label = tk.Label(fenetre, text=texte)
-    texte_label.place(x=x2, y=y2)
-    texte_label.config(font=("Helvetica", taille))
-
-def exporter_carte(self, carte):
-    """
-    1 - Vert: Nature
-    2 - Bleu: Résidence
-    3 - Orange: Emploi
-    4 - Jaune: Energie
-    5 - Rouge: Détruit
-    """
-
-    image = Image.new("RGB", (10, 10), color="white")
-
-    x=0
-    for ligne in carte:
-        y=0
-        for case in ligne:
-            if case.typecase == "Nature": # 1 - Vert: Nature
-                image.putpixel((x, y), (0, 255, 0))
-            if case.typecase == "Residence": # 2 - Bleu: Ville
-                image.putpixel((x, y), (0, 0, 255))
-            if case.typecase == "Emploi": # 3 - Orange: Emploi
-                image.putpixel((x, y), (255, 165, 0))
-            if case.typecase == "Energie": # 4 - Jaune: Energie
-                image.putpixel((x, y), (255, 255, 0))
-            if case.typecase == "Out": # 5 - Rouge: Détruit
-                image.putpixel((x, y), (255, 0, 0))
-            y+=1
-        x+=1
-
-    image.save("carte.png")
-
-#types -> ["Nature","Residence","Emploi","Energie","Detruit"]
-def importer_carte(path):
-    image = Image.open(path)
-    hauteur, largeur = image.size
-    carte = [[None for _ in range(hauteur)] for _ in range(largeur)]
-    for x in range(hauteur):
-        for y in range(largeur):
-            pixel = image.getpixel((x, y))
-            if pixel == rgb_nature:
-                carte[x][y] = Case(50, "Nature")
-            elif pixel == rgb_residence:
-                carte[x][y] = Case(50, "Residence")
-            elif pixel == rgb_emploi:
-                carte[x][y] = Case(50, "Emploi")
-            elif pixel == rgb_energie:
-                carte[x][y] = Case(50, "Energie")
-            elif pixel == rgb_detruit:
-                carte[x][y] = Case(50,"Out")
-            else:
-                raise ValueError(f"Unknown pixel color at position ({x}, {y})")
-    return carte
-'''
+# Ancien code ici, cf. (Archives -> II)
 
 def lecture_fichier(nom_fichier : str) :
+    """Lire et Appliquer un fichier csv sur une carte"""
     with open(nom_fichier, newline= "", encoding= 'utf-8') as f :
         fichier = csv.reader(f, delimiter = ';')
         carte = []
@@ -151,6 +53,7 @@ def lecture_fichier(nom_fichier : str) :
 
 
 def conversion_ligne(liste):
+    """Fonction permettant de bien charger le fichier csv"""
     liste2=[]
 
     for case in liste:
@@ -168,6 +71,7 @@ def conversion_ligne(liste):
 
 
 def ecriture_fichier(carte : list, nom_fichier : str) :
+    """Sauvegarder la carte dans un fichier csv"""
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
         csv.writer(f, delimiter = ';').writerows(carte)
 
@@ -246,6 +150,7 @@ class Application:
         self.application.geometry(f"{self.taille_fenetre}x{self.taille_fenetre}+{x}+{y}")
 
     def Affichage(self):
+        """Affichage de la fenêtre normale"""
         for widget in self.application.winfo_children():
             widget.destroy()
 
@@ -254,10 +159,12 @@ class Application:
             lancer.pack(side='top')
             self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
             self.application.minsize(self.taille_fenetre, self.taille_fenetre)
+            self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Accueil]")
         else:
             self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
             self.creer_texte(self.application, (self.taille_cases+3) * 1.5, 0, f"Jour: {str(self.meteopolis.jour)}", 15)
             self.creer_texte(self.application, (self.taille_cases+3) * 8, 0, f"Méteo: {self.meteopolis.temps}", 15)
+            self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Simulation]")
 
         x2 = self.taille_cases + 3
         for ligne in self.meteopolis.carte:
@@ -290,8 +197,10 @@ class Application:
             modif.pack(side='bottom')
 
     def Affichage_modifications(self):
+        """Affichage de la page après modifications"""
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
+        self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Editeur]")
         for widget in self.application.winfo_children():
             widget.destroy()
 
@@ -356,6 +265,7 @@ class Application:
 
 
     def changer_nature_case(self, coo):
+        """Changer le type d'une case"""
         self.type = self.var.get()
         if self.type == 1:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Nature')
@@ -369,6 +279,7 @@ class Application:
         self.Affichage_modifications()
 
     def save(self):
+        """Sauvegarde de la carte"""
         self.nom_fichier = self.Nom_De_Carte.get()
         ecriture_fichier(self.meteopolis.carte, self.nom_fichier + '.csv')
 
@@ -380,10 +291,12 @@ class Application:
         texte_label.config(font=("Helvetica", taille))
 
     def Simuler(self):
+        """Supprime tous les boutons d'une page"""
         for widget in self.application.winfo_children():
             widget.destroy()
 
     def Simulation(self):
+        """Lance la simulation"""
         self.simulation = True
         self.meteopolis.set_saison(self.saison_de_depart)
         self.nb_saison = 1
@@ -391,6 +304,7 @@ class Application:
         return self.Simuler_une_annee()
 
     def Simuler_une_annee(self):
+        """Lance la simulation complète"""
         if self.meteopolis.get_jour() == 31:
             self.meteopolis.jour = 0
             self.meteopolis.set_saison()

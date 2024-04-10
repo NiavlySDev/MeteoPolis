@@ -11,15 +11,19 @@ class Case:
         return f"({self.vie}, {self.typecase})"
 
     def get_vie(self):
+        """Récupérer la vie d'une case"""
         return self.vie
 
     def get_type(self):
+        """Récupérer le type de la case"""
         return self.typecase
 
     def get_magnifique(self):
+        """Récupérer le niveau de magnifitude de la case"""
         return self.magnifique == True
 
     def modif_vie(self, modificateur):
+        """Modifie (ajout ou retrait) la vie d'une case"""
         nouvelle_vie = self.vie + modificateur
         if nouvelle_vie > 100 and self.magnifique == False:
             self.set_vie(100)
@@ -31,15 +35,19 @@ class Case:
             self.set_vie(nouvelle_vie)
 
     def new_type(self, new_type):
+        """Changer le type d'une case"""
         self.typecase = new_type
 
     def set_vie(self, new_vie):
+        """Changer la vie d'une case"""
         self.vie = new_vie
 
     def set_magnifique(self, new_magn=bool):
+        """Mettre la case en magnifique ou en normal"""
         self.magnifique = new_magn
 
     def verif_case(self):
+        """Mise a jour de la case"""
         if self.vie <= 0:
             self.set_vie(0)
             self.new_type("Out")
@@ -55,9 +63,3 @@ class Case:
 
         elif self.magnifique == True and vie < 100:
             self.set_magnifique(False)
-
-
-
-
-
-

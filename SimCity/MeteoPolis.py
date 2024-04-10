@@ -4,7 +4,6 @@ from Cases import Case
 # import Graphe
 
 class Meteopolis:
-    #selon la doc
     def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
         self.carte = []
         self.jour = 1
@@ -16,7 +15,7 @@ class Meteopolis:
         self.nb_colonnes = nb_colonnes
         self.carte = []
 
-        for i in range(nb_lignes):
+        for i in range(nb_lignes): # Chargement de la carte de Base
             self.carte.append([])
             for j in range(nb_colonnes):
                 self.carte[i].append(Case(50, type))
@@ -30,42 +29,34 @@ class Meteopolis:
             resultat += ligne + '\n'
         return resultat
 
-    '''
-    def maj(self):
-        for widget in self.fenetre.winfo_children():
-            widget.destroy()
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 4, 0, f"Saison: {self.saison}", 15)
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 1.5, 0, f"Jour: {str(self.jour)}", 15)
-        api.creer_texte(self.fenetre, (api.taille_case+3) * 8, 0, f"Méteo: {self.temps}", 15)
-
-        bouton = tk.Button(self.fenetre, text="Modifier", command=self.editeur)
-        bouton.place(x=(api.taille_case*5.8), y=(api.taille_case*12))
-
-        api.creer_boutons(self.fenetre, self.carte, api.taille_case)
-
-    def editeur(self) -> None:
-        self.editeur.maj()
-    '''
+    # Ancien Code Ici, cf. (Archives -> I)
 
     def get_carte(self) -> list:
+        """Récupérer la carte"""
         return self.carte
 
     def get_jour(self) -> int:
+        """Récupérer le jour actuel"""
         return self.jour
 
     def get_saison(self) -> str:
+        """Récupérer la saison actuelle"""
         return self.saison
 
     def get_chaos(self) -> int:
+        """Récupérer le n° du jour de chaos actuel"""
         return self.chaos
 
     def get_temps(self) -> str:
+        """Récupérer la Météo"""
         return self.temps
 
     def get_tempo(self) -> int:
+        """Récupérer la fréquence de rafraichissement de la carte"""
         return self.tempo
 
     def get_coo(self, ligne, colonne, direction = "", nombre_de_pas = 0) -> list:
+        """Récupérer les coordonnées des cases à un pas de (nombre_de_pas)"""
         if direction == "" or nombre_de_pas == 0:
             return [ligne, colonne]
         for i in range(nombre_de_pas):
@@ -85,12 +76,15 @@ class Meteopolis:
 
 
     def set_carte(self, carte_demain) -> None:
+        """Changer la carte"""
         self.carte = carte_demain
 
     def set_temps(self, new_temps) -> None:
+        """Changer la météo"""
         self.temps = new_temps
 
     def set_saison(self, new_saison = "") -> None:
+        """Changer la saison pour (new_saison) ou pour passer à la saison d'après si (new_saison) est vide"""
         if new_saison != "":
             self.saison = new_saison
         elif self.saison == "Automne":
@@ -103,12 +97,15 @@ class Meteopolis:
             self.saison = "Automne"
 
     def incremente_jour(self) -> None:
+        """Ajouter un jour"""
         self.jour += 1
 
     def incremente_chaos(self) -> None:
+        """Ajouter un jour de chaos"""
         self.chaos += 1
 
     def proches_voisins(self, ligne, colonne) -> list:
+        """Récupérer les 4 voisins NSEO"""
         liste = []
         coo = self.get_coo(ligne, colonne, 'Horizontal', 1)
         liste.append(self.carte[coo[0]][coo[1]])
@@ -122,6 +119,7 @@ class Meteopolis:
 
 
     def voisins(self, ligne, colonne) -> list:
+        """Récupérer les voisins au premier cercle (zone de 3x3)"""
         # On ajoute les 4 cases les plus proches
         proches = self.proches_voisins(ligne, colonne)
         liste = []
@@ -153,6 +151,7 @@ class Meteopolis:
         return liste
 
     def banlieue(self, ligne, colonne) -> list:
+        """Récupérer les voisins au deuxième cercle (zone de 5x5)"""
         # On ajoute les 12 cases les plus proches
         proches = self.proches_voisins(ligne, colonne)
         liste = []
@@ -204,4 +203,5 @@ class Meteopolis:
             return self.voisins(ligne, colonne)
 
     def simulation(self, application, nom_fichier = ''):
+        """Lancer la simulation (directement dans l'interface)"""
         application.Simulation()
