@@ -14,7 +14,7 @@ def parametre_modifiable() -> int:
 
 ##### Paramètres (Non-Modifiable) #####
 
-def parametres_immuables():
+def parametres_immuables() -> dict:
     return {
     'NATURE' : "ressources/map/nature.png",
     'RESIDENCE' : "ressources/map/residence.png",
