@@ -30,7 +30,7 @@ def parametres_immuables():
     'rgb_detruit' : (255, 0, 0),
 
     'title' : "MeteoPolis",
-    'version' : "v0.5.4"}
+    'version' : "v0.5.5"}
 
 ######################################
 
