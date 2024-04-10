@@ -13,6 +13,7 @@ class Modification:
         self.coschangees=[]
 
     def maj(self):
+        """Mise a jour de la page"""
         for widget in self.meteopolis.fenetre.winfo_children():
             widget.destroy()
         api.creer_texte(self.fenetre, (api.taille_case+3) * 3.7, 5, f"Modification de la Carte", 15)
@@ -22,6 +23,7 @@ class Modification:
         api.creer_boutons(self.fenetre, self.meteopolis.carte, api.taille_case)
 
     def sauvegarder(self):
+        """Sauvegarde de la carte après modification"""
         for change in self.coschangees:
             self.meteopolis.carte[change["cos"][0]][change["cos"][1]]=Case(50,change["type"])
         for widget in self.fenetre.winfo_children():
@@ -29,9 +31,11 @@ class Modification:
         self.meteopolis.maj()
 
     def affichage(self):
+        """Affichage de l'interface"""
         self.fenetre.mainloop()
 
     def modif(self, event, bouton):
+        """Initialisation secondaire de l'interface éditeur"""
         x = (bouton.winfo_x()//api.taille_case)-1
         y = (bouton.winfo_y()//api.taille_case)-1
         x2=bouton.winfo_x()
@@ -47,6 +51,7 @@ class Modification:
         self.create_remplacement(api.DETRUIT, 7.3, x2, y2)
 
     def create_remplacement(self, image, x, x2, y2):
+        """Crée les boutons de remplacement"""
         image_originale = Image.open(image)
         image_redimensionnee = image_originale.resize((50, 50))
         image_tk = ImageTk.PhotoImage(image_redimensionnee)
@@ -57,12 +62,14 @@ class Modification:
         modif.place(x=int((api.taille_case+3)*x), y=int(((api.taille_case+3)*11)))
 
     def supprimer_bouton(self, x, y):
+        """Supprime un bouton"""
         for widget in self.fenetre.winfo_children():
             if isinstance(widget, tk.Button) and widget.winfo_x() == x and widget.winfo_y() == y:
                 widget.destroy()
                 return
 
     def remplacement_bouton(self, event, b, x, y, image, x2, y2):
+        """Remplace le bouton supprimé pour le remplacer par le nouveau"""
         image_originale = Image.open(image)
         image_redimensionnee = image_originale.resize((50, 50))
         image_tk = ImageTk.PhotoImage(image_redimensionnee)
@@ -90,6 +97,7 @@ class Modification:
 
     # types -> ["Nature","Residence","Emploi","Energie","Detruit"]
     def creer_boutons(self, fenetre, carte, taille_cases):
+        """Initialisation secondaire des boutons"""
         x2=taille_cases+3
         for ligne in carte:
             y2=taille_cases+3
