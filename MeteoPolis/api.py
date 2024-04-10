@@ -8,7 +8,6 @@ import MeteoPolis
 ##### Paramètres (Modifiable) #####
 
 taille_case=48
-taille_carte = 10
 
 ###################################
 
@@ -18,8 +17,8 @@ def parametres_immuables():
     return {'NATURE' : "ressources/map/nature.png",
     'RESIDENCE' : "ressources/map/residence.png",
     'ENERGIE' : "ressources/map/energie.png",
-    'EMPLOI' : "ressources/map/emploie.png",
-    'DETRUIT' : "ressources/map/terrain_vague.png",
+    'EMPLOI' : "ressources/map/emploi.png",
+    'DETRUIT' : "ressources/map/detruit.png",
     'LOGO' : "ressources/fenetre/icone.ico",
 
     'rgb_nature' : (0, 255, 0),
@@ -29,7 +28,7 @@ def parametres_immuables():
     'rgb_detruit' : (255, 0, 0),
 
     'title' : "MeteoPolis",
-    'version' : "v0.5.5"}
+    'version' : "v0.6.0"}
 
 ######################################
 
