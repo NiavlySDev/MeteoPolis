@@ -232,7 +232,7 @@ class Application:
                 y2 += self.taille_cases + 3
             x2 += self.taille_cases + 3
 
-        # Variable pour stocker la sélection
+        # Variable pour stocker la sélection des radioboutons
         self.var = tk.IntVar()
 
         self.Actions = tk.Frame(self.application)
