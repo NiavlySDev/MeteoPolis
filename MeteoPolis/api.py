@@ -30,7 +30,9 @@ def parametres_immuables() -> dict:
     'rgb_detruit' : (255, 0, 0),
 
     'title' : "MeteoPolis",
-    'version' : "v0.6.3"}
+    'version' : "v0.8.5",
+    'tempo': 5
+}
 
 #######################################
 
