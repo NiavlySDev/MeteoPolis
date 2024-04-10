@@ -32,10 +32,10 @@ def parametres_immuables() -> dict:
     'title' : "MeteoPolis",
     'version' : "v0.6.3"}
 
-######################################
+#######################################
 
 
-# Ancien code ici, cf. (Archives -> II)
+##### Gérer les fichiers de la carte #####
 
 def lecture_fichier(nom_fichier : str) -> list :
     """Lire et Appliquer un fichier csv sur une carte"""
@@ -75,91 +75,96 @@ def ecriture_fichier(carte : list, nom_fichier : str) -> None :
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
         csv.writer(f, delimiter = ';').writerows(carte)
 
+##########################################
+
+
+##### Classe Application, gérant tout l'affichage #####
 
 class Application:
+
+    ## Fonction d'initialisation de la classe ##
     def __init__(self, saison_de_depart : str, nom_fichier : str) -> None:
 
+        #Je récupère les liens de toutes les images, les couleurs, le titre et la version du programme
         self.parametres = parametres_immuables()
 
+        #J'initialise la fenêtre et la stocke en attribut de la classe
         self.application = tk.Tk()
-        self.application.title("MeteoPolis")
+        self.application.title(self.parametres['title'])
 
+        #Je créé la ville et la stocke en attribut de la classe
         self.meteopolis = MeteoPolis.Meteopolis()
 
+        #Je charge la carte depuis le fichier si nom_fichier n'est pas vide
         if nom_fichier != "":
-            #Je charge la carte depuis le fichier
             carte = lecture_fichier(nom_fichier)
-        else:
-            carte=self.meteopolis.carte
+            #Je remplace la carte par défaut par la carte chargée
+            self.meteopolis.carte=carte
 
-        self.meteopolis.carte=carte
-
-        # ville.set_saison(saison_depart)
-
+        #Je récupère la taille de cases souhaitée
         self.taille_cases = parametre_modifiable()
+
+        #Je stocke directement, en attribut de la classe, les dimensions de la carte (toujours un carré)
         taille_carte = self.meteopolis.nb_lignes
+
+        #Je stocke la saison de départ, et le nom du fichier au cas où
         self.saison_de_depart = saison_de_depart
         self.nom_fichier = nom_fichier
+
+        #Booléen stipulant si la simulatione est lancée ou non
         self.simulation = False
 
-        """Crée tous les boutons des interfaces"""
-        x2 = self.taille_cases + 3
-        for ligne in self.meteopolis.carte:
-            y2 = self.taille_cases + 3
-            for case in ligne:
-                if case.typecase == "Nature":
-                    image_originale = Image.open(self.parametres['NATURE'])
-                elif case.typecase == "Residence":
-                    image_originale = Image.open(self.parametres['RESIDENCE'])
-                elif case.typecase == "Emploi":
-                    image_originale = Image.open(self.parametres['EMPLOI'])
-                elif case.typecase == "Energie":
-                    image_originale = Image.open(self.parametres['ENERGIE'])
-                elif case.typecase == "Out":
-                    image_originale = Image.open(self.parametres['DETRUIT'])
-                else:
-                    raise ValueError(f"Type inconnu: {case.typecase}")
-
-                image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
-                image_tk = ImageTk.PhotoImage(image_redimensionnee)
-                bouton = tk.Button(self.application, image=image_tk)
-                bouton.image = image_tk
-                bouton.pack()
-                bouton.place(x=x2, y=y2)
-                y2 += self.taille_cases + 3
-            x2 += self.taille_cases + 3
-
+        #Je stocke la taille de la fenêtre en fonction de la taille des cases
         self.taille_fenetre = (self.taille_cases+3) * 12
+
+        #Je change la fenêtre, en stipulant sa taille (min et max), son titre et son logo
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre)
         self.application.title("MeteoPolis"+" " + self.parametres['version'])
-        self.centrer_fenetre()
         self.application.iconbitmap(self.parametres['LOGO'])
 
+        #Je centre la fenêtre
+        self.centrer_fenetre()
+
+        #J'affiche le contenu de la fenêtre
         self.Affichage()
 
+        #Je lance la fenêtre
         self.application.mainloop()
 
 
+    ## Fonction permettant de centrer la fenêtre au milieu de l'écran ##
     def centrer_fenetre(self) -> None:
-        """Permet de centrer la fenêtre au milieu de l'écran"""
+
+        #Je récupère la largeur de l'écran
         largeur_ecran = self.application.winfo_screenwidth()
+
+        #Je récupère la hauteur de l'écran
         hauteur_ecran = self.application.winfo_screenheight()
+
+        #Je calcul où doit se trouver le coin en haut à gauche de la fenêtre sur l'écran. (coo 0, 0 de la fenêtre)
         x = (largeur_ecran - self.taille_fenetre) // 2
         y = (hauteur_ecran - self.taille_fenetre) // 2
+
+        #Je position la fenêtre au milieu de l'écran
         self.application.geometry(f"{self.taille_fenetre}x{self.taille_fenetre}+{x}+{y}")
 
-    def Affichage(self) -> None:
-        """Affichage de la fenêtre normale"""
-        for widget in self.application.winfo_children():
-            widget.destroy()
 
+    ## Fonction gérant l'affichage de base et l'affichage de la simulation ##
+    def Affichage(self) -> None:
+
+        #Je vide la fenêtre
+        self.reset_affichage()
+
+        #Affichage de base
         if not self.simulation:
             lancer = tk.Button(self.application, text='LANCER LA SIMULATION', command = lambda: self.meteopolis.simulation(self))
             lancer.pack(side='top')
             self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
             self.application.minsize(self.taille_fenetre, self.taille_fenetre)
             self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Accueil]")
+
+        #Affichage en simulation
         else:
             self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
             self.creer_texte(self.application, (self.taille_cases+3) * 1.5, 0, f"Jour: {str(self.meteopolis.jour)}", 15)
@@ -318,5 +323,7 @@ class Application:
 
         return self.application.after(self.meteopolis.get_tempo() * 1000, self.Simuler_une_annee)
 
+#######################################################
 
-ok = Application('Ete', 'Carte.csv')
+saisons = ["Automne", "Hiver", "Printemps", "Ete"]
+ok = Application('Printemps', 'Carte.csv')
