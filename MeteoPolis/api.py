@@ -91,7 +91,7 @@ def ecriture_fichier(carte : list, nom_fichier : str) -> None :
 class Application:
 
     ## Fonction d'initialisation de la classe ##
-    def __init__(self, saison_de_depart : str, nom_fichier : str) -> None:
+    def __init__(self, saison_de_depart : str = 'Printemps', nom_fichier : str = '') -> None:
         #Je récupère les liens de toutes les images, les couleurs, le titre et la version du programme
         self.parametres = parametres_immuables()
 
