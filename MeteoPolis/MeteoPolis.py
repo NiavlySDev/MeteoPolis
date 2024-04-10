@@ -4,7 +4,7 @@ from Cases import Case
 # import Graphe
 
 class Meteopolis:
-    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = api.parametres_immuables()['tempo']) -> None:
+    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
         self.carte = []
         self.jour = 1
         self.saison = ""
@@ -204,4 +204,4 @@ class Meteopolis:
 
     def simulation(self, application, nom_fichier = ''):
         """Lancer la simulation (directement dans l'interface)"""
-        application.Simulation()
+        application.lancer_simulation()

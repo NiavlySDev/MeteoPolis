@@ -31,8 +31,7 @@ def parametres_immuables() -> dict:
 
     'title' : "MeteoPolis",
     'version' : "v0.8.5",
-    'tempo': 5
-}
+    'tempo': 5}
 
 #######################################
 
@@ -135,7 +134,7 @@ class Application:
         self.centrer_fenetre()
 
         #J'affiche le contenu de la fenêtre
-        self.Affichage()
+        self.affichage()
 
         #Je lance la fenêtre
         self.application.mainloop()
@@ -158,7 +157,7 @@ class Application:
 
 
     ## Fonction gérant l'affichage de base et l'affichage de la simulation ##
-    def Affichage(self) -> None:
+    def affichage(self) -> None:
         #Je vide la fenêtre
         self.reset_affichage()
 
@@ -236,13 +235,13 @@ class Application:
         #Si la simulation n'est pas lancée
         if not self.simulation:
             #Je créé le bouton pour entrer dans l'interface de modification de l'app
-            modif = tk.Button(self.application, text='MODIFIER LA CARTE', command = lambda: self.Affichage_modifications())
+            modif = tk.Button(self.application, text='MODIFIER LA CARTE', command = lambda: self.affichage_modifications())
             #J'affiche le bouton
             modif.pack(side='bottom')
 
 
     ## Méthode d'affichage du menu de modifications ##
-    def Affichage_modifications(self) -> None:
+    def affichage_modifications(self) -> None:
         #Changement de la taille de la fenêtre
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
@@ -300,7 +299,7 @@ class Application:
         self.radio_choix4 = tk.Radiobutton(self.Actions, text="Energie", variable=self.var, value=4)
 
         #Bouton dans le panneau Actions permettant de sortir de l'interface de modification
-        self.retour = tk.Button(self.Actions, text = 'RETOUR', command = lambda: self.Affichage())
+        self.retour = tk.Button(self.Actions, text = 'RETOUR', command = lambda: self.affichage())
 
         #Affichage des radioboutons
         self.radio_choix1.pack(side=tk.TOP)
@@ -344,7 +343,8 @@ class Application:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Energie')
 
         #Une fois la carte modifiée, j'actualise l'affichage
-        self.Affichage_modifications()
+        self.affichage_modifications()
+
 
     ## Méthode qui sauvegarde la carte ##
     def save(self) -> None:
@@ -354,6 +354,7 @@ class Application:
         #Si le nom entré n'est pas vide, j'appel la méthode de sauvegarde avec la carte et nom_fichier en argument
         if self.nom_fichier != '':
             ecriture_fichier(self.meteopolis.carte, self.nom_fichier + '.csv')
+
 
     ## Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre) ##
     def creer_texte(self, fenetre, x2 : int, y2 : int, texte : str, taille : int) -> None:
@@ -366,6 +367,7 @@ class Application:
         #Je défini la position du texte et l'affiche
         texte_label.place(x=x2, y=y2)
 
+
     ## Méthode supprimant l'ensemble des objets dans la fenêtre ##
     def reset_affichage(self) -> None:
         #Je parcours l'ensemble des éléments de la fenêtre
@@ -373,8 +375,9 @@ class Application:
             #Je détruit l'élément
             widget.destroy()
 
+
     ## Méthode lançant la simulation ##
-    def Simulation(self):
+    def lancer_simulation(self):
         #Je passe à True le booléen stipulant que la simulation est lancée
         self.simulation = True
 
@@ -385,10 +388,11 @@ class Application:
         self.nb_saison = 1
 
         #Je simule une année
-        return self.Simuler_une_annee()
+        return self.simuler_une_annee()
+
 
     ## Méthode lançant une simulation d'un an ##
-    def Simuler_une_annee(self):
+    def simuler_une_annee(self):
         #Code provisoire, c'est la classe Graphe qui incrémentera les jours
         if self.meteopolis.get_jour() == 31:
             self.meteopolis.jour = 0
@@ -400,7 +404,7 @@ class Application:
             return Graphe.calcul_score(self.meteopolis)
 
         #J'affiche la carte
-        self.Affichage()
+        self.affichage()
 
         #J'incrémente le numéro de la journée
         self.meteopolis.incremente_jour()
@@ -409,7 +413,7 @@ class Application:
         #Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
 
         #Appel récursif au bout de (self.meteopolis.get_tempo() * 1000) millisecondes
-        return self.application.after(self.meteopolis.get_tempo() * 1000, self.Simuler_une_annee)
+        return self.application.after(self.meteopolis.get_tempo() * 1000, self.simuler_une_annee)
 
 #######################################################
 
