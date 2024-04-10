@@ -36,6 +36,7 @@ def parametres_immuables() -> dict:
 
 
 ##### Gérer les fichiers de la carte #####
+# /!\ ne pas toucher à ces méthodes! /!\ #
 
 def lecture_fichier(nom_fichier : str) -> list :
     """Lire et Appliquer un fichier csv sur une carte"""
@@ -51,6 +52,7 @@ def lecture_fichier(nom_fichier : str) -> list :
             carte.append(ligne2)
         return carte
 
+# /!\ ne pas toucher à ces méthodes! /!\ #
 
 def conversion_ligne(liste : str) -> list:
     """Fonction permettant de bien charger le fichier csv"""
@@ -69,14 +71,19 @@ def conversion_ligne(liste : str) -> list:
                 temp=""
     return liste2
 
+# /!\ ne pas toucher à ces méthodes! /!\ #
 
 def ecriture_fichier(carte : list, nom_fichier : str) -> None :
     """Sauvegarder la carte dans un fichier csv"""
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
         csv.writer(f, delimiter = ';').writerows(carte)
 
+# /!\ ne pas toucher à ces méthodes! /!\ #
 ##########################################
 
+#Qu'on soit d'accord, vous n'avez aucune raison de modifier le code!
+#Néanmoins, si vous le modifiez et que cela ne fonctionne plus:
+#Sauvegardez vos cartes autre part (que dans le dossier) et retéléchargez la bonne version
 
 ##### Classe Application, gérant tout l'affichage #####
 
@@ -84,7 +91,6 @@ class Application:
 
     ## Fonction d'initialisation de la classe ##
     def __init__(self, saison_de_depart : str, nom_fichier : str) -> None:
-
         #Je récupère les liens de toutes les images, les couleurs, le titre et la version du programme
         self.parametres = parametres_immuables()
 
@@ -135,7 +141,6 @@ class Application:
 
     ## Fonction permettant de centrer la fenêtre au milieu de l'écran ##
     def centrer_fenetre(self) -> None:
-
         #Je récupère la largeur de l'écran
         largeur_ecran = self.application.winfo_screenwidth()
 
@@ -152,29 +157,50 @@ class Application:
 
     ## Fonction gérant l'affichage de base et l'affichage de la simulation ##
     def Affichage(self) -> None:
-
         #Je vide la fenêtre
         self.reset_affichage()
 
         #Affichage de base
         if not self.simulation:
+            #Création du bouton qui appelle la fonction simulation de la classe Meteopolis
             lancer = tk.Button(self.application, text='LANCER LA SIMULATION', command = lambda: self.meteopolis.simulation(self))
+            #Afficher le bouton pour lancer la simulation
             lancer.pack(side='top')
+
+            #Changement de la taille de la fenêtre
             self.application.maxsize(self.taille_fenetre, self.taille_fenetre)
             self.application.minsize(self.taille_fenetre, self.taille_fenetre)
+
+            #Changement du titre
             self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Accueil]")
 
         #Affichage en simulation
         else:
-            self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
+            #Affichage du jour de la saison
             self.creer_texte(self.application, (self.taille_cases+3) * 1.5, 0, f"Jour: {str(self.meteopolis.jour)}", 15)
+
+            #Affichage de la saison
+            self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
+
+            #Affichage de la météo
             self.creer_texte(self.application, (self.taille_cases+3) * 8, 0, f"Méteo: {self.meteopolis.temps}", 15)
+
+            #Changement du titre
             self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Simulation]")
 
+        ## Affichage de la carte ##
+        #Définition de la position horizontale des cases
         x2 = self.taille_cases + 3
+
+        #Parcours des lignes de la carte
         for ligne in self.meteopolis.carte:
+
+            #Définition de la position verticale des cases
             y2 = self.taille_cases + 3
+
+            #Parcours des cases de la ligne
             for case in ligne:
+                #Définition des textures de chaque boutons
                 if case.typecase == "Nature":
                     image_originale = Image.open(self.parametres['NATURE'])
                 elif case.typecase == "Residence":
@@ -188,29 +214,47 @@ class Application:
                 else:
                     raise ValueError(f"Type inconnu: {case.typecase}")
 
+                #Changer la taille des textures pour s'adapter à la taille voulue des cases
                 image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
+
+                #Créer une case avec la texture
                 bouton = tk.Button(self.application, image=image_tk)
                 bouton.image = image_tk
+
+                #Afficher la case
                 bouton.pack()
                 bouton.place(x=x2, y=y2)
+
+                #J'incrémente la position verticale de la prochaine case
                 y2 += self.taille_cases + 3
+            #J'incrémente la position horizontale de la prochaine case
             x2 += self.taille_cases + 3
 
+        #Si la simulation n'est pas lancée
         if not self.simulation:
+            #Je créé le bouton pour entrer dans l'interface de modification de l'app
             modif = tk.Button(self.application, text='MODIFIER LA CARTE', command = lambda: self.Affichage_modifications())
+            #J'affiche le bouton
             modif.pack(side='bottom')
 
+
+    ## Méthode d'affichage du menu de modifications ##
     def Affichage_modifications(self) -> None:
-        """Affichage de la page après modifications"""
+        #Changement de la taille de la fenêtre
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
         self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
+
+        #Changement du titre de la fenêtre
         self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Editeur]")
-        for widget in self.application.winfo_children():
-            widget.destroy()
 
-        self.creer_texte(self.application, (self.taille_cases+3) * 3.25, 0, 'MODIFICATION DE LA CARTE', 15)
+        #Nettoyer la fenêtre
+        self.reset_affichage()
 
+        #Titre du menu au-dessus de la carte
+        self.creer_texte(self.application, (self.taille_cases+3) * 4.25, 25, 'MODIFICATION DE LA CARTE', 10)
+
+        ## Affichage de la carte, même méthode que la précédente méthode d'affichage, sauf la ligne commentée ##
         x2 = self.taille_cases + 3
         for i, ligne in enumerate(self.meteopolis.carte):
             y2 = self.taille_cases + 3
@@ -230,6 +274,9 @@ class Application:
 
                 image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
+                #Je créé un bouton, avec pour propriété d'appeler la fonction qui permet à la case de changer son types (changer_nature_case(coo))
+                #Le i=i et j=j permet de faire en sorte que le bouton garde sa position en mémoire,
+                #et qu'il puisse directement appeler la modification sur sa position
                 bouton = tk.Button(self.application, image=image_tk, command=lambda i=i, j=j: self.changer_nature_case((i, j)))
                 bouton.image = image_tk
                 bouton.pack()
@@ -240,38 +287,51 @@ class Application:
         # Variable pour stocker la sélection des radioboutons
         self.var = tk.IntVar()
 
+        #Création d'un panneau pour contenir l'interface d'intéraction, et d'un panneau pour l'interface de sauvegarde
         self.Actions = tk.Frame(self.application)
         self.Sauvegarde = tk.Frame(self.application)
 
-        # Création des radioboutons
+        # Création des radioboutons dans le panneau Actions, permettant de choisir entre chaque case
         self.radio_choix1 = tk.Radiobutton(self.Actions, text="Nature", variable=self.var, value=1)
         self.radio_choix2 = tk.Radiobutton(self.Actions, text="Résidence", variable=self.var, value=2)
         self.radio_choix3 = tk.Radiobutton(self.Actions, text="Emploi", variable=self.var, value=3)
         self.radio_choix4 = tk.Radiobutton(self.Actions, text="Energie", variable=self.var, value=4)
 
+        #Bouton dans le panneau Actions permettant de sortir de l'interface de modification
         self.retour = tk.Button(self.Actions, text = 'RETOUR', command = lambda: self.Affichage())
 
+        #Affichage des radioboutons
         self.radio_choix1.pack(side=tk.TOP)
         self.radio_choix2.pack(side=tk.TOP)
         self.radio_choix3.pack(side=tk.TOP)
         self.radio_choix4.pack(side=tk.TOP)
 
+        #Affichage du bouton de retour
         self.retour.pack(side=tk.TOP)
 
-        self.Charger_Button = tk.Button(self.Sauvegarde, text="Sauvegarder la carte sous le nom de: ", command=lambda:self.save())
-        self.Charger_Button.pack(side=tk.LEFT)
+        #Création du bouton de sauvegarde, appelant la méthode save()
+        self.Bouton_de_sauvegarde = tk.Button(self.Sauvegarde, text="Sauvegarder la carte sous le nom de: ", command=lambda:self.save())
+        #Affichage du bouton de sauvegarde
+        self.Bouton_de_sauvegarde.pack(side=tk.LEFT)
 
+        #Création de l'espace d'entrée texte pour le nom de la carte à enregistrer
         self.Nom_De_Carte = tk.Entry(self.Sauvegarde)
+        #Affichage de l'espace d'entrée texte
         self.Nom_De_Carte.pack(side=tk.LEFT)
 
+        #Affichage du panneau de sauvegarde
         self.Sauvegarde.pack(side='bottom')
 
+        #Affichage du panneau d'Actions
         self.Actions.pack(side='bottom')
 
 
+    ## Méthode pour changer la nature de la case dont les coo sont en argument ##
     def changer_nature_case(self, coo : tuple) -> None:
-        """Changer le type d'une case"""
+        #Je récupère la sélection des radioboutons
         self.type = self.var.get()
+
+        #J'appelle la fonction de la classe Case sur la case aux coordonnées indiquées en argument
         if self.type == 1:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Nature')
         elif self.type == 2:
@@ -280,50 +340,77 @@ class Application:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Emploi')
         elif self.type == 4:
             self.meteopolis.carte[coo[0]][coo[1]].new_type('Energie')
+
+        #Une fois la carte modifiée, j'actualise l'affichage
         self.Affichage_modifications()
 
+    ## Méthode qui sauvegarde la carte ##
     def save(self) -> None:
-        """Sauvegarde de la carte"""
+        #Je récupère le nom de carte rentré dans l'espace texte
         self.nom_fichier = self.Nom_De_Carte.get()
-        ecriture_fichier(self.meteopolis.carte, self.nom_fichier + '.csv')
 
+        #Si le nom entré n'est pas vide, j'appel la méthode de sauvegarde avec la carte et nom_fichier en argument
+        if self.nom_fichier != '':
+            ecriture_fichier(self.meteopolis.carte, self.nom_fichier + '.csv')
 
+    ## Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre) ##
     def creer_texte(self, fenetre, x2 : int, y2 : int, texte : str, taille : int) -> None:
-        """Créé un texte (texte) de taille (taille) aux coordonnées (x2, y2) dans la fenêtre fenetre (fenetre)"""
+        #Je créé un texte tkinter
         texte_label = tk.Label(fenetre, text=texte)
-        texte_label.place(x=x2, y=y2)
+
+        #Je défini la police et la taille du texte
         texte_label.config(font=("Helvetica", taille))
 
+        #Je défini la position du texte et l'affiche
+        texte_label.place(x=x2, y=y2)
+
+    ## Méthode supprimant l'ensemble des objets dans la fenêtre ##
     def reset_affichage(self) -> None:
-        """Supprime tous les boutons d'une page"""
+        #Je parcours l'ensemble des éléments de la fenêtre
         for widget in self.application.winfo_children():
+            #Je détruit l'élément
             widget.destroy()
 
+    ## Méthode lançant la simulation ##
     def Simulation(self):
-        """Lance la simulation"""
+        #Je passe à True le booléen stipulant que la simulation est lancée
         self.simulation = True
+
+        #Je défini la saison de départ de la simulation
         self.meteopolis.set_saison(self.saison_de_depart)
+
+        #J'initialise le compteur de saisons à 1
         self.nb_saison = 1
 
+        #Je simule une année
         return self.Simuler_une_annee()
 
+    ## Méthode lançant une simulation d'un an ##
     def Simuler_une_annee(self):
-        """Lance la simulation complète"""
+        #Code provisoire, c'est la classe Graphe qui incrémentera les jours
         if self.meteopolis.get_jour() == 31:
             self.meteopolis.jour = 0
             self.meteopolis.set_saison()
             self.nb_saison += 1
 
+        #Condition d'arrêt, quand la saison 4 est dépassée, on retourne le score de la simulation
         if self.nb_saison == 5:
             return Graphe.calcul_score(self.meteopolis)
 
+        #J'affiche la carte
         self.Affichage()
+
+        #J'incrémente le numéro de la journée
         self.meteopolis.incremente_jour()
+
+        #Je calcule la ville de demain
         #Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
 
+        #Appel récursif au bout de (self.meteopolis.get_tempo() * 1000) millisecondes
         return self.application.after(self.meteopolis.get_tempo() * 1000, self.Simuler_une_annee)
 
 #######################################################
 
+#Liste des saisons de départ possible
 saisons = ["Automne", "Hiver", "Printemps", "Ete"]
 ok = Application('Printemps', 'Carte.csv')
