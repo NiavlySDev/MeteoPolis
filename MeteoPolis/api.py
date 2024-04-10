@@ -35,7 +35,7 @@ def parametres_immuables():
 
 # Ancien code ici, cf. (Archives -> II)
 
-def lecture_fichier(nom_fichier : str) :
+def lecture_fichier(nom_fichier : str) -> list :
     """Lire et Appliquer un fichier csv sur une carte"""
     with open(nom_fichier, newline= "", encoding= 'utf-8') as f :
         fichier = csv.reader(f, delimiter = ';')
@@ -50,7 +50,7 @@ def lecture_fichier(nom_fichier : str) :
         return carte
 
 
-def conversion_ligne(liste):
+def conversion_ligne(liste : str) -> list:
     """Fonction permettant de bien charger le fichier csv"""
     liste2=[]
 
@@ -68,14 +68,14 @@ def conversion_ligne(liste):
     return liste2
 
 
-def ecriture_fichier(carte : list, nom_fichier : str) :
+def ecriture_fichier(carte : list, nom_fichier : str) -> None :
     """Sauvegarder la carte dans un fichier csv"""
     with open(nom_fichier,'w',newline="",encoding='utf-8') as f :
         csv.writer(f, delimiter = ';').writerows(carte)
 
 
 class Application:
-    def __init__(self, saison_de_depart, nom_fichier):
+    def __init__(self, saison_de_depart : str, nom_fichier : str) -> None:
 
         self.parametres = parametres_immuables()
 
