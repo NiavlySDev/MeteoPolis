@@ -223,9 +223,9 @@ class Application:
                 for case in ligne:
                     #Définition des textures de chaque boutons
                     if self.meteopolis.saison != "":
-                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
+                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                     else:
-                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
+                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                     #Changer la taille des textures pour s'adapter à la taille voulue des cases
                     image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
@@ -258,10 +258,18 @@ class Application:
                 #Parcours des cases de la ligne
                 for case in ligne:
                     #Définition des textures de chaque boutons
-                    if self.meteopolis.saison != "":
-                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
+                    if case.typecase == "Nature":
+                        image_originale = self.parametres['rgb_nature']
+                    elif case.typecase == "Residence":
+                        image_originale = self.parametres['rgb_residence']
+                    elif case.typecase == "Emploi":
+                        image_originale = self.parametres['rgb_emploi']
+                    elif case.typecase == "Energie":
+                        image_originale = self.parametres['rgb_energie']
+                    elif case.typecase == "Out":
+                        image_originale = self.parametres['rgb_detruit']
                     else:
-                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
+                        raise ValueError(f"Type inconnu: {case.typecase}")
 
                     #Charger la texture avec les bonnes dimensions
                     image_redimensionnee = Image.new("RGB", (self.taille_cases, self.taille_cases), image_originale)
@@ -308,10 +316,11 @@ class Application:
         for i, ligne in enumerate(self.meteopolis.carte):
             y2 = self.taille_cases + 3
             for j, case in enumerate(ligne):
+                #Définition des textures de chaque boutons
                 if self.meteopolis.saison != "":
-                    image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
+                    image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                 else:
-                    image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
+                    image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                 image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
