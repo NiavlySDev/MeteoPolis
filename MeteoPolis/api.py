@@ -14,24 +14,29 @@ def parametre_modifiable() -> int:
 
 ##### Paramètres (Non-Modifiable) #####
 
+def get_texture(saison, case):
+    """ Renvoi le lien de la texture associée à la saison et la case """
+    return f'ressources/map/{case}/{case}_{saison}.png'
+
 def parametres_immuables() -> dict:
     return {
-    'NATURE' : Image.open("ressources/map/nature.png"),
-    'RESIDENCE' : Image.open("ressources/map/residence.png"),
-    'ENERGIE' : Image.open("ressources/map/energie.png"),
-    'EMPLOI' : Image.open("ressources/map/emploi.png"),
-    'DETRUIT' : Image.open("ressources/map/detruit.png"),
-    'LOGO' : "ressources/fenetre/icone.ico",
+        'NATURE' : Image.open("ressources/map/nature.png"),
+        'RESIDENCE' : Image.open("ressources/map/residence.png"),
+        'ENERGIE' : Image.open("ressources/map/energie.png"),
+        'EMPLOI' : Image.open("ressources/map/emploi.png"),
+        'DETRUIT' : Image.open("ressources/map/detruit.png"),
+        'LOGO' : "ressources/fenetre/icone.ico",
 
-    'rgb_nature' : (0, 255, 0),
-    'rgb_residence' : (0, 0, 255),
-    'rgb_emploi' : (255, 165, 0),
-    'rgb_energie' : (255, 255, 0),
-    'rgb_detruit' : (255, 0, 0),
+        'rgb_nature' : (0, 255, 0),
+        'rgb_residence' : (0, 0, 255),
+        'rgb_emploi' : (255, 165, 0),
+        'rgb_energie' : (255, 255, 0),
+        'rgb_detruit' : (255, 0, 0),
 
-    'title' : "MeteoPolis",
-    'version' : "v0.8.5",
-    'tempo': 5}
+        'title' : "MeteoPolis",
+        'version' : "v0.9.2",
+        'tempo': 5
+    }
 
 #######################################
 
@@ -213,18 +218,10 @@ class Application:
                 #Parcours des cases de la ligne
                 for case in ligne:
                     #Définition des textures de chaque boutons
-                    if case.typecase == "Nature":
-                        image_originale = self.parametres['NATURE']
-                    elif case.typecase == "Residence":
-                        image_originale = self.parametres['RESIDENCE']
-                    elif case.typecase == "Emploi":
-                        image_originale = self.parametres['EMPLOI']
-                    elif case.typecase == "Energie":
-                        image_originale = self.parametres['ENERGIE']
-                    elif case.typecase == "Out":
-                        image_originale = self.parametres['DETRUIT']
+                    if self.meteopolis.saison != "":
+                        image_originale = Image.open(get_texture(self.meteopolis.saison.lower(), case.typecase.lower()))
                     else:
-                        raise ValueError(f"Type inconnu: {case.typecase}")
+                        image_originale = Image.open(get_texture(self.saison_de_depart.lower(), case.typecase.lower()))
 
                     #Changer la taille des textures pour s'adapter à la taille voulue des cases
                     image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
