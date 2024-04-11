@@ -118,8 +118,11 @@ class Application:
         self.saison_de_depart = saison_de_depart
         self.nom_fichier = nom_fichier
 
-        #Booléen stipulant si la simulatione est lancée ou non
+        #Booléen stipulant si la simulation est lancée ou non
         self.simulation = False
+
+        #Booléen stipulant si l'on doit afficher les stats des cases
+        self.stats = False
 
         #Je stocke la taille de la fenêtre en fonction de la taille des cases
         self.taille_fenetre = (self.taille_cases+3) * 12
@@ -177,7 +180,6 @@ class Application:
 
         #Affichage en simulation
         else:
-            #Affichage du jour de la saison
             self.creer_texte(self.application, (self.taille_cases+3) * 1.5, 0, f"Jour: {str(self.meteopolis.jour)}", 15)
 
             #Affichage de la saison
@@ -189,48 +191,101 @@ class Application:
             #Changement du titre
             self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Simulation]")
 
-        ## Affichage de la carte ##
-        #Définition de la position horizontale des cases
-        x2 = self.taille_cases + 3
+            #Création d'un bouton pour définir si l'on doit afficher les stats ou non
+            afficher_stats = tk.Button(self.application, text='STATS', command = lambda : self.changer_stats())
+            afficher_stats.pack(side='bottom')
 
-        #Parcours des lignes de la carte
-        for ligne in self.meteopolis.carte:
+            #Création d'un texte pour expliquer le fonctionnement du bouton stats
+            self.creer_texte(self.application, self.taille_fenetre//2 - 155, self.taille_fenetre-45, "ce bouton change l'affichage à partir du prochain jour", 10)
 
-            #Définition de la position verticale des cases
-            y2 = self.taille_cases + 3
+        #Si l'on affiche pas les statistiques
+        if not self.stats:
+            ## Affichage de la carte avec textures ##
+            #Définition de la position horizontale des cases
+            x2 = self.taille_cases + 3
 
-            #Parcours des cases de la ligne
-            for case in ligne:
-                #Définition des textures de chaque boutons
-                if case.typecase == "Nature":
-                    image_originale = self.parametres['NATURE']
-                elif case.typecase == "Residence":
-                    image_originale = self.parametres['RESIDENCE']
-                elif case.typecase == "Emploi":
-                    image_originale = self.parametres['EMPLOI']
-                elif case.typecase == "Energie":
-                    image_originale = self.parametres['ENERGIE']
-                elif case.typecase == "Out":
-                    image_originale = self.parametres['DETRUIT']
-                else:
-                    raise ValueError(f"Type inconnu: {case.typecase}")
+            #Parcours des lignes de la carte
+            for ligne in self.meteopolis.carte:
 
-                #Changer la taille des textures pour s'adapter à la taille voulue des cases
-                image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
-                image_tk = ImageTk.PhotoImage(image_redimensionnee)
+                #Définition de la position verticale des cases
+                y2 = self.taille_cases + 3
 
-                #Créer une case avec la texture
-                bouton = tk.Button(self.application, image=image_tk)
-                bouton.image = image_tk
+                #Parcours des cases de la ligne
+                for case in ligne:
+                    #Définition des textures de chaque boutons
+                    if case.typecase == "Nature":
+                        image_originale = self.parametres['NATURE']
+                    elif case.typecase == "Residence":
+                        image_originale = self.parametres['RESIDENCE']
+                    elif case.typecase == "Emploi":
+                        image_originale = self.parametres['EMPLOI']
+                    elif case.typecase == "Energie":
+                        image_originale = self.parametres['ENERGIE']
+                    elif case.typecase == "Out":
+                        image_originale = self.parametres['DETRUIT']
+                    else:
+                        raise ValueError(f"Type inconnu: {case.typecase}")
 
-                #Afficher la case
-                bouton.pack()
-                bouton.place(x=x2, y=y2)
+                    #Changer la taille des textures pour s'adapter à la taille voulue des cases
+                    image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
+                    image_tk = ImageTk.PhotoImage(image_redimensionnee)
 
-                #J'incrémente la position verticale de la prochaine case
-                y2 += self.taille_cases + 3
-            #J'incrémente la position horizontale de la prochaine case
-            x2 += self.taille_cases + 3
+                    #Créer une case avec la texture
+                    bouton = tk.Button(self.application, image=image_tk)
+                    bouton.image = image_tk
+
+                    #Afficher la case
+                    bouton.pack()
+                    bouton.place(x=x2, y=y2)
+
+                    #J'incrémente la position verticale de la prochaine case
+                    y2 += self.taille_cases + 3
+                #J'incrémente la position horizontale de la prochaine case
+                x2 += self.taille_cases + 3
+        #Si l'on affiche les statistiques
+        else:
+            ## Affichage de la carte avec stats ##
+            #Définition de la position horizontale des cases
+            x2 = self.taille_cases + 3
+
+            #Parcours des lignes de la carte
+            for ligne in self.meteopolis.carte:
+
+                #Définition de la position verticale des cases
+                y2 = self.taille_cases + 3
+
+                #Parcours des cases de la ligne
+                for case in ligne:
+                    #Définition des textures de chaque boutons
+                    if case.typecase == "Nature":
+                        image_originale = self.parametres['rgb_nature']
+                    elif case.typecase == "Residence":
+                        image_originale = self.parametres['rgb_residence']
+                    elif case.typecase == "Emploi":
+                        image_originale = self.parametres['rgb_emploi']
+                    elif case.typecase == "Energie":
+                        image_originale = self.parametres['rgb_energie']
+                    elif case.typecase == "Out":
+                        image_originale = self.parametres['rgb_detruit']
+                    else:
+                        raise ValueError(f"Type inconnu: {case.typecase}")
+
+                    #Charger la texture avec les bonnes dimensions
+                    image_redimensionnee = Image.new("RGB", (self.taille_cases, self.taille_cases), image_originale)
+                    image_tk = ImageTk.PhotoImage(image_redimensionnee)
+
+                    #Créer une case avec la texture
+                    bouton = tk.Button(self.application, image=image_tk, text=str(case.vie) + '\n' + case.typecase, font=("Arial", 7), compound=tk.CENTER)
+                    bouton.image = image_tk
+
+                    #Afficher la case
+                    bouton.pack()
+                    bouton.place(x=x2, y=y2)
+
+                    #J'incrémente la position verticale de la prochaine case
+                    y2 += self.taille_cases + 3
+                #J'incrémente la position horizontale de la prochaine case
+                x2 += self.taille_cases + 3
 
         #Si la simulation n'est pas lancée
         if not self.simulation:
@@ -366,6 +421,14 @@ class Application:
 
         #Je défini la position du texte et l'affiche
         texte_label.place(x=x2, y=y2)
+
+
+    ## Switch la variable stats ##
+    def changer_stats(self):
+        if self.stats:
+            self.stats = False
+        else:
+            self.stats = True
 
 
     ## Méthode supprimant l'ensemble des objets dans la fenêtre ##
