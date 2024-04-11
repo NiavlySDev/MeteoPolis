@@ -261,15 +261,15 @@ class Application:
             y2 = self.taille_cases + 3
             for j, case in enumerate(ligne):
                 if case.typecase == "Nature":
-                    image_originale = Image.open(self.parametres['NATURE'])
+                    image_originale = self.parametres['NATURE']
                 elif case.typecase == "Residence":
-                    image_originale = Image.open(self.parametres['RESIDENCE'])
+                    image_originale = self.parametres['RESIDENCE']
                 elif case.typecase == "Emploi":
-                    image_originale = Image.open(self.parametres['EMPLOI'])
+                    image_originale = self.parametres['EMPLOI']
                 elif case.typecase == "Energie":
-                    image_originale = Image.open(self.parametres['ENERGIE'])
+                    image_originale = self.parametres['ENERGIE']
                 elif case.typecase == "Out":
-                    image_originale = Image.open(self.parametres['DETRUIT'])
+                    image_originale = self.parametres['DETRUIT']
                 else:
                     raise ValueError(f"Type inconnu: {case.typecase}")
 
