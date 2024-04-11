@@ -4,7 +4,7 @@ from Cases import Case
 # import Graphe
 
 class Meteopolis:
-    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
+    def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 1) -> None:
         self.carte = []
         self.jour = 1
         self.saison = ""

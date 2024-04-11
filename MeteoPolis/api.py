@@ -8,23 +8,14 @@ import MeteoPolis
 ##### Paramètres (Modifiable) #####
 
 def parametre_modifiable() -> int:
-    return 48
+    return 48 #"zoom" de la fenêtre
 
 ###################################
 
 ##### Paramètres (Non-Modifiable) #####
 
-def get_texture(saison, case):
-    """ Renvoi le lien de la texture associée à la saison et la case """
-    return f'ressources/map/{case}/{case}_{saison}.png'
-
 def parametres_immuables() -> dict:
-    return {
-        'NATURE' : Image.open("ressources/map/nature.png"),
-        'RESIDENCE' : Image.open("ressources/map/residence.png"),
-        'ENERGIE' : Image.open("ressources/map/energie.png"),
-        'EMPLOI' : Image.open("ressources/map/emploi.png"),
-        'DETRUIT' : Image.open("ressources/map/detruit.png"),
+    dico = {
         'LOGO' : "ressources/fenetre/icone.ico",
 
         'rgb_nature' : (0, 255, 0),
@@ -34,11 +25,25 @@ def parametres_immuables() -> dict:
         'rgb_detruit' : (255, 0, 0),
 
         'title' : "MeteoPolis",
-        'version' : "v0.9.2",
+        'version' : "v0.9.3",
         'tempo': 5
     }
+    saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
+    cases = ["nature", "residence", "energie", "emploi", "detruit"]
+
+    #Chargement des textures dans les fichiers
+    for saison in saisons:
+        for case in cases:
+            dico[f"{case}_{saison}"]=Image.open(f"ressources/map/{case}/{case}_{saison}.png")
+
+    return dico
 
 #######################################
+
+
+ #Changez la rapidité de défilement des jours en bas du code de ce fichier, vous trouverez:
+""" return self.application.after(self.meteopolis.get_tempo() * [nb_ms], self.simuler_une_annee)
+ changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour.  """
 
 
 ##### Gérer les fichiers de la carte #####
@@ -219,9 +224,9 @@ class Application:
                 for case in ligne:
                     #Définition des textures de chaque boutons
                     if self.meteopolis.saison != "":
-                        image_originale = Image.open(get_texture(self.meteopolis.saison.lower(), case.typecase.lower()))
+                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                     else:
-                        image_originale = Image.open(get_texture(self.saison_de_depart.lower(), case.typecase.lower()))
+                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                     #Changer la taille des textures pour s'adapter à la taille voulue des cases
                     image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
@@ -312,18 +317,11 @@ class Application:
         for i, ligne in enumerate(self.meteopolis.carte):
             y2 = self.taille_cases + 3
             for j, case in enumerate(ligne):
-                if case.typecase == "Nature":
-                    image_originale = self.parametres['NATURE']
-                elif case.typecase == "Residence":
-                    image_originale = self.parametres['RESIDENCE']
-                elif case.typecase == "Emploi":
-                    image_originale = self.parametres['EMPLOI']
-                elif case.typecase == "Energie":
-                    image_originale = self.parametres['ENERGIE']
-                elif case.typecase == "Out":
-                    image_originale = self.parametres['DETRUIT']
+                #Définition des textures de chaque boutons
+                if self.meteopolis.saison != "":
+                    image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                 else:
-                    raise ValueError(f"Type inconnu: {case.typecase}")
+                    image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                 image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
@@ -441,7 +439,7 @@ class Application:
         #Je passe à True le booléen stipulant que la simulation est lancée
         self.simulation = True
 
-        #Je défini la saison de départ de la simulation
+        #Je définis la saison de départ de la simulation
         self.meteopolis.set_saison(self.saison_de_depart)
 
         #J'initialise le compteur de saisons à 1
@@ -479,4 +477,5 @@ class Application:
 
 #Liste des saisons de départ possible
 saisons = ["Automne", "Hiver", "Printemps", "Ete"]
+#temps = ["Ensoleillé","Nuageux","Pluvieux","Vent","Tempête","Neigeux","Brouillard"]
 ok = Application('Printemps', 'Carte.csv')
