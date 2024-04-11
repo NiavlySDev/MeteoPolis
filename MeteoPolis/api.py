@@ -16,11 +16,11 @@ def parametre_modifiable() -> int:
 
 def parametres_immuables() -> dict:
     return {
-    'NATURE' : "ressources/map/nature.png",
-    'RESIDENCE' : "ressources/map/residence.png",
-    'ENERGIE' : "ressources/map/energie.png",
-    'EMPLOI' : "ressources/map/emploi.png",
-    'DETRUIT' : "ressources/map/detruit.png",
+    'NATURE' : Image.open("ressources/map/nature.png"),
+    'RESIDENCE' : Image.open("ressources/map/residence.png"),
+    'ENERGIE' : Image.open("ressources/map/energie.png"),
+    'EMPLOI' : Image.open("ressources/map/emploi.png"),
+    'DETRUIT' : Image.open("ressources/map/detruit.png"),
     'LOGO' : "ressources/fenetre/icone.ico",
 
     'rgb_nature' : (0, 255, 0),
@@ -203,15 +203,15 @@ class Application:
             for case in ligne:
                 #Définition des textures de chaque boutons
                 if case.typecase == "Nature":
-                    image_originale = Image.open(self.parametres['NATURE'])
+                    image_originale = self.parametres['NATURE']
                 elif case.typecase == "Residence":
-                    image_originale = Image.open(self.parametres['RESIDENCE'])
+                    image_originale = self.parametres['RESIDENCE']
                 elif case.typecase == "Emploi":
-                    image_originale = Image.open(self.parametres['EMPLOI'])
+                    image_originale = self.parametres['EMPLOI']
                 elif case.typecase == "Energie":
-                    image_originale = Image.open(self.parametres['ENERGIE'])
+                    image_originale = self.parametres['ENERGIE']
                 elif case.typecase == "Out":
-                    image_originale = Image.open(self.parametres['DETRUIT'])
+                    image_originale = self.parametres['DETRUIT']
                 else:
                     raise ValueError(f"Type inconnu: {case.typecase}")
 
