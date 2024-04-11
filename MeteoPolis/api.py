@@ -14,12 +14,8 @@ def parametre_modifiable() -> int:
 
 ##### Paramètres (Non-Modifiable) #####
 
-def get_texture(saison, case):
-    """ Renvoi le lien de la texture associée à la saison et la case """
-    return f'ressources/map/{case}/{case}_{saison}.png'
-
 def parametres_immuables() -> dict:
-    return {
+    dico = {
         'NATURE' : Image.open("ressources/map/nature.png"),
         'RESIDENCE' : Image.open("ressources/map/residence.png"),
         'ENERGIE' : Image.open("ressources/map/energie.png"),
@@ -37,6 +33,14 @@ def parametres_immuables() -> dict:
         'version' : "v0.9.2",
         'tempo': 5
     }
+    saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
+    cases = ["nature", "residence", "energie", "emploi", "detruit"]
+
+    for saison in saisons:
+        for case in cases:
+            dico[f"{case}_{saison}"]=Image.open(f"ressources/map/{case}/{case}_{saison}.png")
+
+    return dico
 
 #######################################
 
@@ -219,9 +223,9 @@ class Application:
                 for case in ligne:
                     #Définition des textures de chaque boutons
                     if self.meteopolis.saison != "":
-                        image_originale = Image.open(get_texture(self.meteopolis.saison.lower(), case.typecase.lower()))
+                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                     else:
-                        image_originale = Image.open(get_texture(self.saison_de_depart.lower(), case.typecase.lower()))
+                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                     #Changer la taille des textures pour s'adapter à la taille voulue des cases
                     image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
@@ -254,18 +258,10 @@ class Application:
                 #Parcours des cases de la ligne
                 for case in ligne:
                     #Définition des textures de chaque boutons
-                    if case.typecase == "Nature":
-                        image_originale = self.parametres['rgb_nature']
-                    elif case.typecase == "Residence":
-                        image_originale = self.parametres['rgb_residence']
-                    elif case.typecase == "Emploi":
-                        image_originale = self.parametres['rgb_emploi']
-                    elif case.typecase == "Energie":
-                        image_originale = self.parametres['rgb_energie']
-                    elif case.typecase == "Out":
-                        image_originale = self.parametres['rgb_detruit']
+                    if self.meteopolis.saison != "":
+                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                     else:
-                        raise ValueError(f"Type inconnu: {case.typecase}")
+                        image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                     #Charger la texture avec les bonnes dimensions
                     image_redimensionnee = Image.new("RGB", (self.taille_cases, self.taille_cases), image_originale)
@@ -312,18 +308,10 @@ class Application:
         for i, ligne in enumerate(self.meteopolis.carte):
             y2 = self.taille_cases + 3
             for j, case in enumerate(ligne):
-                if case.typecase == "Nature":
-                    image_originale = self.parametres['NATURE']
-                elif case.typecase == "Residence":
-                    image_originale = self.parametres['RESIDENCE']
-                elif case.typecase == "Emploi":
-                    image_originale = self.parametres['EMPLOI']
-                elif case.typecase == "Energie":
-                    image_originale = self.parametres['ENERGIE']
-                elif case.typecase == "Out":
-                    image_originale = self.parametres['DETRUIT']
+                if self.meteopolis.saison != "":
+                    image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
                 else:
-                    raise ValueError(f"Type inconnu: {case.typecase}")
+                    image_originale = parametres_immuables()[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                 image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
                 image_tk = ImageTk.PhotoImage(image_redimensionnee)
