@@ -36,6 +36,7 @@ def parametres_immuables() -> dict:
     saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
     cases = ["nature", "residence", "energie", "emploi", "detruit"]
 
+    #Chargement des textures dans les fichiers
     for saison in saisons:
         for case in cases:
             dico[f"{case}_{saison}"]=Image.open(f"ressources/map/{case}/{case}_{saison}.png")
