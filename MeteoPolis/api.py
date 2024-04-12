@@ -301,7 +301,7 @@ class Application:
     def affichage_modifications(self) -> None:
         #Changement de la taille de la fenêtre
         self.application.maxsize(self.taille_fenetre, self.taille_fenetre + 110)
-        self.application.minsize(self.taille_fenetre, self.taille_fenetre + 110)
+        self.application.minsize(self.taille_fenetre-100, self.taille_fenetre + 10)
 
         #Changement du titre de la fenêtre
         self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Editeur]")
@@ -348,14 +348,14 @@ class Application:
         self.radio_choix3 = tk.Radiobutton(self.Actions, text="Emploi", variable=self.var, value=3)
         self.radio_choix4 = tk.Radiobutton(self.Actions, text="Energie", variable=self.var, value=4)
 
+        #Affichage des radioboutons
+        self.radio_choix1.pack(side='left')
+        self.radio_choix2.pack(side='left')
+        self.radio_choix3.pack(side='left')
+        self.radio_choix4.pack(side='left')
+
         #Bouton dans le panneau Actions permettant de sortir de l'interface de modification
         self.retour = tk.Button(self.Actions, text = 'RETOUR', command = lambda: self.affichage())
-
-        #Affichage des radioboutons
-        self.radio_choix1.pack(side=tk.TOP)
-        self.radio_choix2.pack(side=tk.TOP)
-        self.radio_choix3.pack(side=tk.TOP)
-        self.radio_choix4.pack(side=tk.TOP)
 
         #Affichage du bouton de retour
         self.retour.pack(side=tk.TOP)
