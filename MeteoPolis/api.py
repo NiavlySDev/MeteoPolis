@@ -8,7 +8,7 @@ import MeteoPolis
 ##### Paramètres (Modifiable) #####
 
 def parametre_modifiable() -> int:
-    return 48
+    return 48 #"zoom" de la fenêtre
 
 ###################################
 
@@ -16,6 +16,7 @@ def parametre_modifiable() -> int:
 
 def parametres_immuables() -> dict:
     dico = {
+        #ici se trouvent les chemins d'accès aux images voulues
         'NATURE' : Image.open("ressources/map/nature.png"),
         'RESIDENCE' : Image.open("ressources/map/residence.png"),
         'ENERGIE' : Image.open("ressources/map/energie.png"),
@@ -44,6 +45,11 @@ def parametres_immuables() -> dict:
     return dico
 
 #######################################
+
+
+ #Changez la rapidité de défilement des jours en bas du code de ce fichier, vous trouverez:
+""" return self.application.after(self.meteopolis.get_tempo() * [nb_ms], self.simuler_une_annee)
+ changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour.  """
 
 
 ##### Gérer les fichiers de la carte #####
@@ -439,7 +445,7 @@ class Application:
         #Je passe à True le booléen stipulant que la simulation est lancée
         self.simulation = True
 
-        #Je défini la saison de départ de la simulation
+        #Je définis la saison de départ de la simulation
         self.meteopolis.set_saison(self.saison_de_depart)
 
         #J'initialise le compteur de saisons à 1
@@ -477,4 +483,5 @@ class Application:
 
 #Liste des saisons de départ possible
 saisons = ["Automne", "Hiver", "Printemps", "Ete"]
+#temps = ["Ensoleillé","Nuageux","Pluvieux","Vent","Tempête","Neigeux","Brouillard"]
 ok = Application('Printemps', 'Carte.csv')
