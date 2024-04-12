@@ -16,12 +16,6 @@ def parametre_modifiable() -> int:
 
 def parametres_immuables() -> dict:
     dico = {
-        #ici se trouvent les chemins d'accès aux images voulues
-        'NATURE' : Image.open("ressources/map/nature.png"),
-        'RESIDENCE' : Image.open("ressources/map/residence.png"),
-        'ENERGIE' : Image.open("ressources/map/energie.png"),
-        'EMPLOI' : Image.open("ressources/map/emploi.png"),
-        'DETRUIT' : Image.open("ressources/map/detruit.png"),
         'LOGO' : "ressources/fenetre/icone.ico",
 
         'rgb_nature' : (0, 255, 0),
@@ -31,7 +25,7 @@ def parametres_immuables() -> dict:
         'rgb_detruit' : (255, 0, 0),
 
         'title' : "MeteoPolis",
-        'version' : "v0.9.2",
+        'version' : "v0.9.3",
         'tempo': 5
     }
     saisons = ["printemps", "ete", "automne", "hiver", "chaos"]

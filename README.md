@@ -22,9 +22,8 @@
 - 1 (Priorité): Documentation Complète (En Cours)
 - 2 (Rapidement): Ajout de Commentaires 😉 (Fait)
 - 3 (Obligatoirement): Possibilité de Lancer la simulation (Attente du module/code de Mr Lecamus...) 🤷‍♂️
-- 4 (C'est mieux): Refonte complète des icones 💠
-- 5 (C'est + beau): Changement du fond suivant la météo et la saison 🌞
-- 6 (🤷‍♂️): Petite Refonte Graphique 💡
+- 4 (C'est mieux): Refonte complète des icones (Fait)💠
+- 5 (C'est + beau): Changement du fond suivant la météo et la saison (En Cours) 🌞
 
 La bise 😘👌
 
