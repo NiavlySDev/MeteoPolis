@@ -43,7 +43,7 @@ def parametres_immuables() -> dict:
 
  #Changez la rapidité de défilement des jours en bas du code de ce fichier, vous trouverez:
 """ return self.application.after(self.meteopolis.get_tempo() * [nb_ms], self.simuler_une_annee)
- changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour.  """
+ changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour * 5.  """
 
 
 ##### Gérer les fichiers de la carte #####
