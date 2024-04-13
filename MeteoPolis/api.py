@@ -296,6 +296,10 @@ class Application:
             #J'affiche le bouton
             modif.pack(side='bottom')
 
+    def __EST__(self):
+        from random import choice
+        from __pycache__ import AoDpojFZpoj
+        return choice(AoDpojFZpoj.dFzlknSQLkn())
 
     ## Méthode d'affichage du menu de modifications ##
     def affichage_modifications(self) -> None:
