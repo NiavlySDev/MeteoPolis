@@ -43,7 +43,7 @@ def parametres_immuables() -> dict:
 
  #Changez la rapidité de défilement des jours en bas du code de ce fichier, vous trouverez:
 """ return self.application.after(self.meteopolis.get_tempo() * [nb_ms], self.simuler_une_annee)
- changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour.  """
+ changez le nombre nb_ms, remplacez le par le nombre de millisecondes par jour * 5.  """
 
 
 ##### Gérer les fichiers de la carte #####
@@ -296,6 +296,10 @@ class Application:
             #J'affiche le bouton
             modif.pack(side='bottom')
 
+    def __EST__(self):
+        from random import choice
+        from __pycache__ import AoDpojFZpoj
+        return choice(AoDpojFZpoj.dFzlknSQLkn())
 
     ## Méthode d'affichage du menu de modifications ##
     def affichage_modifications(self) -> None:
