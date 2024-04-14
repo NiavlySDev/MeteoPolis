@@ -25,7 +25,7 @@ def parametres_immuables() -> dict:
         'rgb_detruit' : (255, 0, 0),
 
         'title' : "MeteoPolis",
-        'version' : "v0.9.3",
+        'version' : "v0.9.5",
         'tempo': 5
     }
     saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
