@@ -25,7 +25,7 @@ def parametres_immuables() -> dict:
         'rgb_detruit' : (255, 0, 0),
 
         'title' : "MeteoPolis",
-        'version' : "v0.9.3",
+        'version' : "v0.9.5",
         'tempo': 5
     }
     saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
@@ -447,7 +447,7 @@ class Application:
         self.meteopolis.set_saison(self.saison_de_depart)
 
         #J'initialise le compteur de saisons à 1
-        self.nb_saison = 5
+        self.nb_saison = 1
 
         #Je simule une année
         return self.simuler_une_annee()
