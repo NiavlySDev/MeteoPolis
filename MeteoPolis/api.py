@@ -447,7 +447,7 @@ class Application:
         self.meteopolis.set_saison(self.saison_de_depart)
 
         #J'initialise le compteur de saisons à 1
-        self.nb_saison = 1
+        self.nb_saison = 5
 
         #Je simule une année
         return self.simuler_une_annee()
@@ -463,7 +463,11 @@ class Application:
 
         #Condition d'arrêt, quand la saison 4 est dépassée, on retourne le score de la simulation
         if self.nb_saison == 5:
-            return Graphe.calcul_score(self.meteopolis)
+            self.reset_affichage()
+            #resultat = Graphe.calcul_score(self.meteopolis)
+            resultat=5
+            self.creer_texte(self.application, 10, self.taille_fenetre//3, 'Le score de cette ville est: ' + str(resultat) + '\n' + 'Voici une phrase iconique de votre professeur en bonus:' + '\n' + '"' + self.__EST__() + '"', 10)
+            return resultat
 
         #J'affiche la carte
         self.affichage()
