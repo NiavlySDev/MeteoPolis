@@ -1,5 +1,5 @@
 from random import randint as rand
-__fEeSiZk__="abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ.?!(),…-_'+ éèàùâêîôûçäëïöüÇ"
+__fEeSiZk__="abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ.?!(),-_'+ "
 
 class mlZFmlkS:
     def __init__(self, DfSqflkzS, azdSDfSqDSQzS=0):
