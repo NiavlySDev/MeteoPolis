@@ -56,6 +56,7 @@ class Case:
         elif self.typecase == "Out" and self.vie == 100:
 
             indice_type = random.randint(0,3)
+            self.set_vie(100)
             self.new_type(liste_types[indice_type])
 
         elif self.vie == 100 and self.magnifique == False:
