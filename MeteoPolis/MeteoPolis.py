@@ -74,7 +74,6 @@ class Meteopolis:
                 ligne = ligne - self.nb_lignes
             return [ligne, colonne]
 
-
     def set_carte(self, carte_demain) -> None:
         """Changer la carte"""
         self.carte = carte_demain
