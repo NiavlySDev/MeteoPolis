@@ -22,14 +22,14 @@ def parametres_immuables() -> dict:
         'rgb_residence' : (0, 0, 255),
         'rgb_emploi' : (255, 165, 0),
         'rgb_energie' : (255, 255, 0),
-        'rgb_detruit' : (255, 0, 0),
+        'rgb_out' : (255, 0, 0),
 
         'title' : "MeteoPolis",
         'version' : "v0.9.5",
         'tempo': 5
     }
     saisons = ["printemps", "ete", "automne", "hiver", "chaos"]
-    cases = ["nature", "residence", "energie", "emploi", "detruit"]
+    cases = ["nature", "residence", "energie", "emploi", "out"]
 
     #Chargement des textures dans les fichiers
     for saison in saisons:
@@ -268,7 +268,7 @@ class Application:
                     elif case.typecase == "Energie":
                         image_originale = self.parametres['rgb_energie']
                     elif case.typecase == "Out":
-                        image_originale = self.parametres['rgb_detruit']
+                        image_originale = self.parametres['rgb_out']
                     else:
                         raise ValueError(f"Type inconnu: {case.typecase}")
 
@@ -348,7 +348,7 @@ class Application:
 
         # Création des radioboutons dans le panneau Actions, permettant de choisir entre chaque case
         self.radio_choix1 = tk.Radiobutton(self.Actions, text="Nature", variable=self.var, value=1)
-        self.radio_choix2 = tk.Radiobutton(self.Actions, text="Résidence", variable=self.var, value=2)
+        self.radio_choix2 = tk.Radiobutton(self.Actions, text="Residence", variable=self.var, value=2)
         self.radio_choix3 = tk.Radiobutton(self.Actions, text="Emploi", variable=self.var, value=3)
         self.radio_choix4 = tk.Radiobutton(self.Actions, text="Energie", variable=self.var, value=4)
 
