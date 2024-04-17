@@ -61,5 +61,5 @@ class Case:
         elif self.vie == 100 and self.magnifique == False:
             self.set_magnifique(True)
 
-        elif self.magnifique == True and vie < 100:
+        elif self.magnifique == True and self.vie < 100:
             self.set_magnifique(False)
