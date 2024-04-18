@@ -37,6 +37,14 @@ def parametres_immuables() -> dict:
         for case in cases:
             dico[f"{case}_{saison}"]=Image.open(f"ressources/map/{case}/{case}_{saison}.png")
 
+    meteos = ['soleil', 'nuageux', 'pluie', 'vent', 'tempete', 'neige', 'brouillard']
+    chaos = ['volcan', 'seisme', 'meteorite', 'antre_du_demon', 'canicule', 'epidemie', 'fatal_foudre', 'inondation', 'tornade', 'attaque_ovni']
+
+    for meteo in meteos:
+        dico[f'{meteo}']=Image.open(f"ressources/meteos/normal/{meteo}.png")
+    for chao in chaos:
+        dico[f'{chao}']=Image.open(f"ressources/meteos/chaos/{chao}.png")
+
     return dico
 
 #######################################
@@ -202,7 +210,60 @@ class Application:
             self.creer_texte(self.application, (self.taille_cases+3) * 4, 0, f"Saison: {self.meteopolis.saison}", 15)
 
             #Affichage de la météo
-            self.creer_texte(self.application, (self.taille_cases+3) * 8, 0, f"Méteo: {self.meteopolis.temps}", 15)
+            self.creer_texte(self.application, (self.taille_cases+3) * 8, 0, f"Méteo: ", 15)
+
+
+
+            if self.meteopolis.temps != '':
+                if self.meteopolis.temps == 'Tempête':
+                    image_originale = self.parametres[f"tempete"]
+                elif self.meteopolis.temps == 'Vent':
+                    image_originale = self.parametres[f"vent"]
+                elif self.meteopolis.temps == 'Pluie':
+                    image_originale = self.parametres[f"pluie"]
+                elif self.meteopolis.temps == 'Neige':
+                    image_originale = self.parametres[f"neige"]
+                elif self.meteopolis.temps == 'Brouillard':
+                    image_originale = self.parametres[f"brouillard"]
+                elif self.meteopolis.temps == 'Nuageux':
+                    image_originale = self.parametres[f"nuageux"]
+                elif self.meteopolis.temps == 'Soleil':
+                    image_originale = self.parametres[f"soleil"]
+
+                elif self.meteopolis.temps == 'Attaque OVNI':
+                        image_originale = self.parametres[f"attaque_ovni"]
+                elif self.meteopolis.temps == 'Canicule':
+                    image_originale = self.parametres[f"canicule"]
+                elif self.meteopolis.temps == 'Pluie de météorites':
+                    image_originale = self.parametres[f"meteorite"]
+                elif self.meteopolis.temps == 'Antre du démon':
+                    image_originale = self.parametres[f"antre_du_demon"]
+                elif self.meteopolis.temps == 'Volcan':
+                    image_originale = self.parametres[f"volcan"]
+                elif self.meteopolis.temps == 'Séisme':
+                    image_originale = self.parametres[f"seisme"]
+                elif self.meteopolis.temps == 'Epidémie':
+                    image_originale = self.parametres[f"epidemie"]
+                elif self.meteopolis.temps == 'Fatal-foudre':
+                    image_originale = self.parametres[f"fatal_foudre"]
+                elif self.meteopolis.temps == 'Inondation':
+                    image_originale = self.parametres[f"inondation"]
+                elif self.meteopolis.temps == 'Tornade':
+                    image_originale = self.parametres[f"tornade"]
+
+            if self.meteopolis.temps != '':
+                #Changer la taille des textures pour s'adapter à la taille voulue des cases
+                image_redimensionnee = image_originale.resize((35, 35))
+                image_tk = ImageTk.PhotoImage(image_redimensionnee)
+
+                #Créer une case avec la texture
+                meteo = tk.Button(self.application, image=image_tk)
+                meteo.image = image_tk
+
+                #Afficher la case
+                meteo.pack()
+                meteo.place(x=475, y=0)
+
 
             #Changement du titre
             self.application.title(parametres_immuables()["title"]+" "+parametres_immuables()["version"]+" [Simulation]")
@@ -229,10 +290,13 @@ class Application:
                 #Parcours des cases de la ligne
                 for case in ligne:
                     #Définition des textures de chaque boutons
-                    if self.meteopolis.saison != "":
-                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
+                    if self.meteopolis.chaos:
+                        image_originale = self.parametres[f"{case.typecase.lower()}_chaos"]
                     else:
-                        image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
+                        if self.meteopolis.saison != "":
+                            image_originale = self.parametres[f"{case.typecase.lower()}_{self.meteopolis.saison.lower()}"]
+                        else:
+                            image_originale = self.parametres[f"{case.typecase.lower()}_{self.saison_de_depart.lower()}"]
 
                     #Changer la taille des textures pour s'adapter à la taille voulue des cases
                     image_redimensionnee = image_originale.resize((self.taille_cases, self.taille_cases))
@@ -475,7 +539,7 @@ class Application:
         Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
 
         #Appel récursif au bout de (self.meteopolis.get_tempo() * 1000) millisecondes
-        return self.application.after(self.meteopolis.get_tempo() * 1, self.simuler_une_annee)
+        return self.application.after(self.meteopolis.get_tempo() * 1000, self.simuler_une_annee)
 
 #######################################################
 
