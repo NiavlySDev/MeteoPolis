@@ -6,8 +6,8 @@
 - Maxence Antonio
 
 # Autres 👍:
-- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/MeteoPolis/releases/download/0.9.5.bis/Meteopolis-0.9.5.zip)
-- **Changements ➡**: [Voir](https://github.com/NiavlySDev/MeteoPolis/releases/tag/0.9.5.bis)
+- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/MeteoPolis/releases/download/1.0.0/Meteopolis-1.0.0.zip)
+- **Changements ➡**: [Voir](https://github.com/NiavlySDev/MeteoPolis/releases/tag/1.0.0)
 
 # Captures 📸:
 ## ✨ Interface Principale✨
@@ -19,11 +19,11 @@
 
 # 📜 Infomations de Développement 📜:
 ## 🖋 Modifications à venir avec le temps (En Projet) 🖋 :
-- 1 (Priorité): Documentation Complète (En Cours)
+- 1 (Priorité): Documentation Complète (Fait)
 - 2 (Rapidement): Ajout de Commentaires 😉 (Fait)
-- 3 (Obligatoirement): Possibilité de Lancer la simulation (Attente du module/code de Mr Lecamus...) 🤷‍♂️
+- 3 (Obligatoirement): Possibilité de Lancer la simulation (Fait) 🤷‍♂️
 - 4 (C'est mieux): Refonte complète des icones (Fait)💠
-- 5 (C'est + beau): Changement du fond suivant la météo et la saison (En Cours) 🌞
+- 5 (C'est + beau): Affichage météo (Fait) 🌞
 
 La bise 😘👌
 
