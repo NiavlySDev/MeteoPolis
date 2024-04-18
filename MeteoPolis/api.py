@@ -4,6 +4,7 @@ from Cases import Case
 
 import csv
 import MeteoPolis
+from graphe_projet3 import Graphe
 
 ##### Paramètres (Modifiable) #####
 
@@ -22,7 +23,7 @@ def parametres_immuables() -> dict:
         'rgb_residence' : (0, 0, 255),
         'rgb_emploi' : (255, 165, 0),
         'rgb_energie' : (255, 255, 0),
-        'rgb_out' : (255, 0, 0),
+        'rgb_detruit' : (255, 0, 0),
 
         'title' : "MeteoPolis",
         'version' : "v0.9.5",
@@ -110,7 +111,7 @@ class Application:
         self.application.title(self.parametres['title'])
 
         #Je créé la ville et la stocke en attribut de la classe
-        self.meteopolis = MeteoPolis.Meteopolis()
+        self.meteopolis = MeteoPolis.Meteopolis(10, 10, 'Nature', 1)
 
         #Je charge la carte depuis le fichier si nom_fichier n'est pas vide
         if nom_fichier != "":
@@ -152,6 +153,11 @@ class Application:
         #Je lance la fenêtre
         self.application.mainloop()
 
+    def minuscule(type : str) -> str :
+        if type == 'Residence' :
+            return 'residence'
+        else :
+            return type.lower()
 
     ## Fonction permettant de centrer la fenêtre au milieu de l'écran ##
     def centrer_fenetre(self) -> None:
@@ -268,7 +274,7 @@ class Application:
                     elif case.typecase == "Energie":
                         image_originale = self.parametres['rgb_energie']
                     elif case.typecase == "Out":
-                        image_originale = self.parametres['rgb_out']
+                        image_originale = self.parametres['rgb_detruit']
                     else:
                         raise ValueError(f"Type inconnu: {case.typecase}")
 
@@ -447,7 +453,7 @@ class Application:
         self.meteopolis.set_saison(self.saison_de_depart)
 
         #J'initialise le compteur de saisons à 1
-        self.nb_saison = 1
+        self.nb_saison = 1 #Je crois que c'est devenu inutile, mais ça fonctionne, donc on touche à rien
 
         #Je simule une année
         return self.simuler_une_annee()
@@ -455,35 +461,25 @@ class Application:
 
     ## Méthode lançant une simulation d'un an ##
     def simuler_une_annee(self):
-        #Code provisoire, c'est la classe Graphe qui incrémentera les jours
-        if self.meteopolis.get_jour() == 31:
-            self.meteopolis.jour = 0
-            self.meteopolis.set_saison()
-            self.nb_saison += 1
-
         #Condition d'arrêt, quand la saison 4 est dépassée, on retourne le score de la simulation
-        if self.nb_saison == 5:
+        if self.meteopolis.get_jour() > 120:
             self.reset_affichage()
-            #resultat = Graphe.calcul_score(self.meteopolis)
-            resultat=5
+            resultat = Graphe.calcul_score(self.meteopolis)
             self.creer_texte(self.application, 10, self.taille_fenetre//3, 'Le score de cette ville est: ' + str(resultat) + '\n' + 'Voici une phrase iconique de votre professeur en bonus:' + '\n' + '"' + self.__EST__() + '"', 10)
             return resultat
 
         #J'affiche la carte
         self.affichage()
 
-        #J'incrémente le numéro de la journée
-        self.meteopolis.incremente_jour()
-
         #Je calcule la ville de demain
-        #Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
+        Graphe.ville_de_demain(self.meteopolis) # Calcul de la ville du lendemain
 
         #Appel récursif au bout de (self.meteopolis.get_tempo() * 1000) millisecondes
-        return self.application.after(self.meteopolis.get_tempo() * 1000, self.simuler_une_annee)
+        return self.application.after(self.meteopolis.get_tempo() * 1, self.simuler_une_annee)
 
 #######################################################
 
 #Liste des saisons de départ possible
 saisons = ["Automne", "Hiver", "Printemps", "Ete"]
 #temps = ["Ensoleillé","Nuageux","Pluvieux","Vent","Tempête","Neigeux","Brouillard"]
-ok = Application('Printemps', 'Carte.csv')
+ok = Application('Ete', 'Carte.csv')
