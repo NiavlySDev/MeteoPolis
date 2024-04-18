@@ -6,7 +6,7 @@ from Cases import Case
 class Meteopolis:
     def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
         self.carte = []
-        self.jour = 1
+        self.jour = 0
         self.saison = ""
         self.chaos = 0
         self.est_chaos = True
