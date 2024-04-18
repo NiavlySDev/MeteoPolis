@@ -290,7 +290,7 @@ class Application:
                 #Parcours des cases de la ligne
                 for case in ligne:
                     #Définition des textures de chaque boutons
-                    if self.meteopolis.chaos:
+                    if self.meteopolis.est_chaos:
                         image_originale = self.parametres[f"{case.typecase.lower()}_chaos"]
                     else:
                         if self.meteopolis.saison != "":
