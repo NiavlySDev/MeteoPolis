@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from Cases import Case
-# import Graphe
+#from graphe_projet3 import Graphe
 
 class Meteopolis:
     def __init__(self, nb_lignes = 10, nb_colonnes = 10, type = "Nature", tempo = 5) -> None:
@@ -9,6 +9,7 @@ class Meteopolis:
         self.jour = 1
         self.saison = ""
         self.chaos = 0
+        self.est_chaos = True
         self.temps = ""
         self.tempo = tempo
         self.nb_lignes = nb_lignes
@@ -65,13 +66,14 @@ class Meteopolis:
             ligne += nombre_de_pas
         if colonne < 0:
             colonne = self.nb_colonnes + colonne
-        elif colonne > self.nb_colonnes:
+        elif colonne >= self.nb_colonnes:
             colonne = colonne - self.nb_colonnes
         elif ligne < 0:
             ligne  = self.nb_lignes + ligne
-        elif ligne > self.nb_lignes:
+        elif ligne >= self.nb_lignes:
             ligne = ligne - self.nb_lignes
         return [ligne, colonne]
+
 
     def set_carte(self, carte_demain) -> None:
         """Changer la carte"""
@@ -199,7 +201,7 @@ class Meteopolis:
             return self.proches_voisins(ligne, colonne)
         elif self.carte[ligne][colonne].typecase == "Nature" or self.carte[ligne][colonne].typecase == "Energie":
             return self.voisins(ligne, colonne)
-        else:
+        else :
             return []
 
     def simulation(self, application, nom_fichier = ''):
