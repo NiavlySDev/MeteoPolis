@@ -6,8 +6,8 @@
 - Maxence Antonio
 
 # Autres 👍:
-- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/MeteoPolis/releases/download/0.9.5.bis/Meteopolis-0.9.5.zip)
-- **Changements ➡**: [Voir](https://github.com/NiavlySDev/MeteoPolis/releases/tag/0.9.5.bis)
+- **Dernière Version en Date sans Bugs ➡**: [Télécharger](https://github.com/NiavlySDev/MeteoPolis/releases/download/1.0.0/MeteoPolis-v1.0.zip)
+- **Changements ➡**: [Voir](https://github.com/NiavlySDev/MeteoPolis/releases/tag/1.0.0)
 
 # Captures 📸:
 ## ✨ Interface Principale✨
